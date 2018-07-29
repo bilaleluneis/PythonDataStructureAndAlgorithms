@@ -3,8 +3,7 @@ __since__ = "July 2018"
 __email__ = "foundwonder@gmail.com"
 
 from numpy import random as random_generator
-from numpy import ceil as round_up
-from datetime import datetime as timer
+import time
 
 # Generate several lists to be sorted and return a tuple
 # data structure that will contain the following:
@@ -77,22 +76,22 @@ def merge_sort_impl_j(list_to_be_sorted):
 
 # start of running code
 if __name__ == "__main__":
-    (sorted_list, random_list, reversed_list) = lists_generator(10, 10)
+    (sorted_list, random_list, reversed_list) = lists_generator(100, 100)
     #merge_sort_impl_j(reversed_list)
 
     print("-------------Testing Jieshu's Merge Sort Impl-------------")
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_sorted = merge_sort_impl_j(sorted_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("Sorted list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_reversed = merge_sort_impl_j(reversed_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("Reversed list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_random = merge_sort_impl_j(random_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("Random list {} was sorted to {} in {} ms".format(random_list, result_random, (end_time - start_time)))
     print("-------------End of Testing Jieshu's Merge Sort Impl-------------")
