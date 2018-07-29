@@ -79,6 +79,31 @@ def bubble_sort_impl_j(list_to_be_sorted):
     return result_list
 
 
+# Optimized bubble sort from the pseudocode from Wikipedia
+# https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
+def bubble_sort_impl_optimized(list_to_be_sorted):
+
+    swap_check = True
+    list_size = len(list_to_be_sorted)
+    current_index = list_size - 1
+    sorted_array = list(list_to_be_sorted)
+    while swap_check:
+
+        swap_check = False
+        while current_index > 0:  # 0 is first index in array
+            current_element = sorted_array[current_index]
+            previous_element = sorted_array[current_index - 1]
+            if current_element < previous_element:
+                sorted_array[current_index] = previous_element
+                sorted_array[current_index - 1] = current_element
+                swap_check = True
+            current_index = current_index - 1
+
+        current_index = list_size - 1
+
+    return sorted_array
+
+
 # start of running code
 if __name__ == "__main__":
     (sorted_list, random_list, reversed_list) = lists_generator(100, 30)
@@ -118,3 +143,22 @@ if __name__ == "__main__":
     end_time = timer.now()
     print("list {} was sorted to {} in {} ms".format(random_list, result_random, (end_time - start_time)))
     print("-------------End of Testing Jieshu's Bubble Sort Impl-------------")
+
+    print()  # creating a new line
+
+    print("-------------Testing Optimized Bubble Sort Impl from Wikipedia-------------")
+    start_time = timer.now()
+    result_sorted = bubble_sort_impl_optimized(sorted_list)
+    end_time = timer.now()
+    print("list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
+
+    start_time = timer.now()
+    result_reversed = bubble_sort_impl_optimized(reversed_list)
+    end_time = timer.now()
+    print("list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
+
+    start_time = timer.now()
+    result_random = bubble_sort_impl_optimized(random_list)
+    end_time = timer.now()
+    print("list {} was sorted to {} in {} ms".format(random_list, result_random, (end_time - start_time)))
+    print("-------------End of Testing Optimized Bubble Sort Impl from Wikipedia-------------")
