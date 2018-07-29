@@ -4,7 +4,7 @@ __since__ = "July 2018"
 __email__ = "bilaleluneis@gmail.com and foundwonder@gmail.com"
 
 from numpy import random as random_generator
-from datetime import datetime as timer
+import time
 
 
 # Generate several lists to be sorted and return a tuple
@@ -106,59 +106,59 @@ def bubble_sort_impl_optimized(list_to_be_sorted):
 
 # start of running code
 if __name__ == "__main__":
-    (sorted_list, random_list, reversed_list) = lists_generator(100, 30)
+    (sorted_list, random_list, reversed_list) = lists_generator(100, 100)
 
     print("-------------Testing Bilal's Bubble Sort Impl-------------")
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_sorted = bubble_sort_impl_b(sorted_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_reversed = bubble_sort_impl_b(reversed_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_random = bubble_sort_impl_b(random_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(random_list, result_random, (end_time - start_time)))
     print("-------------End of Testing Bilal's Bubble Sort Impl-------------")
 
     print()  # creating a new line
 
     print("-------------Testing Jieshu's Bubble Sort Impl-------------")
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_sorted = bubble_sort_impl_j(sorted_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_reversed = bubble_sort_impl_j(reversed_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_random = bubble_sort_impl_j(random_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(random_list, result_random, (end_time - start_time)))
     print("-------------End of Testing Jieshu's Bubble Sort Impl-------------")
 
     print()  # creating a new line
 
     print("-------------Testing Optimized Bubble Sort Impl from Wikipedia-------------")
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_sorted = bubble_sort_impl_optimized(sorted_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_reversed = bubble_sort_impl_optimized(reversed_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
 
-    start_time = timer.now()
+    start_time = float(time.time() * 1000)
     result_random = bubble_sort_impl_optimized(random_list)
-    end_time = timer.now()
+    end_time = float(time.time() * 1000)
     print("list {} was sorted to {} in {} ms".format(random_list, result_random, (end_time - start_time)))
     print("-------------End of Testing Optimized Bubble Sort Impl from Wikipedia-------------")
