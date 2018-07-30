@@ -95,6 +95,53 @@ def merge_sort_impl_recursion_j(list_to_be_sorted: []) ->[]:
         return sorted_list
 
 
+# Bilal El Uneis
+# took the combined work done with Jieshu's recursive impl
+# and attempted to minimize both the function and sorting
+# loop in sort_merge_list_impl_b
+def merge_sort_recursion_impl_b(list_to_sort: []) -> []:
+
+    if len(list_to_sort) == 1:
+        return list_to_sort
+
+    else:
+        list_size = len(list_to_sort)
+        mid_index = floor(list_size / 2)
+        left_list = list_to_sort[:mid_index]
+        right_list = list_to_sort[mid_index:]
+        left_list_sorted = merge_sort_impl_recursion_j(left_list)
+        right_list_sorted = merge_sort_impl_recursion_j(right_list)
+        return sort_merge_list_impl_b(left_list_sorted, right_list_sorted)
+
+
+# Bilal El Uneis
+# more minimized and easier to follow loop for sorting
+# left side and right side of the list
+def sort_merge_list_impl_b(left_side: [], right_side: []) -> []:
+
+    right_index = 0
+    left_index = 0
+    result_list = list()
+
+    while left_index < len(left_side):
+
+        if right_index >= len(right_side):
+            result_list.append(left_side[left_index])
+            left_index = left_index + 1
+
+        while right_index < len(right_side):
+
+            if left_side[left_index] < right_side[right_index]:
+                result_list.append(left_side[left_index])
+                left_index = left_index + 1
+
+            else:
+                result_list.append(right_side[right_index])
+                right_index = right_index + 1
+
+    return result_list
+
+
 def sort_merge_list(left_side, right_side):
     right_index = 0
     left_index = 0
@@ -171,7 +218,7 @@ def sort_merge_list(left_side, right_side):
 
 # start of running code
 if __name__ == "__main__":
-    (sorted_list, random_list, reversed_list) = lists_generator(1000, 1000)
+    (sorted_list, random_list, reversed_list) = lists_generator(10, 10)
     #merge_sort_impl_j(reversed_list)
 
     print("-------------Testing Jieshu's Merge Sort Impl-------------")
@@ -181,7 +228,7 @@ if __name__ == "__main__":
     # print("Sorted list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
 
     start_time = float(time.time() * 1000)
-    result_reversed = merge_sort_impl_recursion_j(reversed_list)
+    result_reversed = merge_sort_recursion_impl_b(reversed_list)
     end_time = float(time.time() * 1000)
     print("Reversed list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
 
