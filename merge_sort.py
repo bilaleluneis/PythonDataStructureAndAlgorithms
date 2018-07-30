@@ -1,10 +1,12 @@
-__author__ = "Jieshu Wang"
+
+__author__ = "Jieshu Wang and Bilal El Uneis"
 __since__ = "July 2018"
 __email__ = "foundwonder@gmail.com"
 
 from numpy import random as random_generator
 import time
 from math import *
+
 
 # Generate several lists to be sorted and return a tuple
 # data structure that will contain the following:
@@ -17,6 +19,7 @@ def lists_generator(end_number, list_size):
     random_sorted_list = random_generator.randint(end_number, size=list_size).tolist()
     reverse_sorted_list = already_sorted_list[::-1]
     return already_sorted_list, random_sorted_list, reverse_sorted_list
+
 
 # define a function that compare and merge two lists.
 def list_compare_merge(list_1, list_2):
@@ -117,30 +120,50 @@ def merge_sort_impl_recursion(list_to_be_sorted):
         list_break_down[each_index] = [list_to_be_sorted[each_index]]
 
 
+# Bilal -- initial impl of merge recursive algorithm
+def divide_conquer_sort(left_list: [], right_list: []) -> []:
 
-def divide_conquer_sort(left_list, right_list, result_list):
-
+    sorted_left_list = [None] * len(left_list)
+    sorted_right_list = [None] * len(right_list)
     if len(left_list) > 1:
         mid_section = floor(len(left_list) / 2)
-        divide_conquer_sort(left_list[:mid_section], left_list[mid_section:], result_list)
+        sorted_left_list = divide_conquer_sort(left_list[:mid_section], left_list[mid_section:])
 
     if len(right_list) > 1:
         mid_section = floor(len(right_list) / 2)
-        divide_conquer_sort(right_list[:mid_section], right_list[mid_section:], result_list)
+        sorted_right_list = divide_conquer_sort(right_list[:mid_section], right_list[mid_section:])
 
-    for item_from_left in left_list:
-        for item_from_right in right_list:
-            if item_from_left < item_from_right:
-                result_list.append(item_from_left)
+    right_index = 0
+    left_index = 0
+    current_index_on_result_list = 0
+    result_list = [None] * (len(sorted_left_list) + len(sorted_right_list))
+
+    while left_index < len(sorted_left_list):
+
+        if right_index >= len(sorted_right_list):
+            result_list[current_index_on_result_list] = sorted_left_list[left_index]
+            left_index = left_index + 1
+            current_index_on_result_list = current_index_on_result_list + 1
+
+        while right_index < len(sorted_right_list):
+
+            if sorted_left_list[left_index] < sorted_right_list[right_index]:
+                result_list[current_index_on_result_list] = sorted_left_list[left_index]
+                left_index = left_index + 1
+                current_index_on_result_list = current_index_on_result_list + 1
             else:
-                result_list.append(item_from_right)
+                result_list[current_index_on_result_list] = sorted_right_list[right_index]
+                right_index = right_index + 1
+                current_index_on_result_list = current_index_on_result_list + 1
+
+    return result_list
 
 
 def merge_sort_b(initial_list):
     result_list = []
     if len(initial_list) > 1:
         mid_section = floor(len(initial_list) / 2)
-        divide_conquer_sort(initial_list[:mid_section], initial_list[mid_section:], result_list)
+        result_list = divide_conquer_sort(initial_list[:mid_section], initial_list[mid_section:])
     return result_list
 
 
