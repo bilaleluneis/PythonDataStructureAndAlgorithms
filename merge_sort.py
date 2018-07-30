@@ -77,47 +77,22 @@ def merge_sort_impl_j(list_to_be_sorted):
     sorted_list = list_break_down[0]
     return sorted_list
 
-# Try using recursion to write merge sort
-def list_compare_merge_recursion(list_1, list_2):
-    current_index_list_1 = 0
-    current_index_list_2 = 0
-    current_index_temp_list = 0
-    size_list_1 = len(list_1)
-    size_list_2 = len(list_2)
-    temp_sorted_merged_list = [None] * (size_list_1 + size_list_2)
-    size_list_temp = len(temp_sorted_merged_list)
-
-    while current_index_temp_list < size_list_temp:
-        if current_index_list_1 < size_list_1 and current_index_list_2 < size_list_2:
-            if list_1[current_index_list_1] < list_2[current_index_list_2]:
-                temp_sorted_merged_list[current_index_temp_list] = list_1[current_index_list_1]
-                current_index_list_1 = current_index_list_1 + 1
-                current_index_temp_list = current_index_temp_list + 1
-            else:
-                temp_sorted_merged_list[current_index_temp_list] = list_2[current_index_list_2]
-                current_index_list_2 = current_index_list_2 + 1
-                current_index_temp_list = current_index_temp_list + 1
-        elif current_index_list_1 == size_list_1:
-            while current_index_list_2 < size_list_2:
-                temp_sorted_merged_list[current_index_temp_list] = list_2[current_index_list_2]
-                current_index_temp_list = current_index_temp_list + 1
-                current_index_list_2 = current_index_list_2 + 1
-        elif current_index_list_2 == size_list_2:
-            while current_index_list_1 < size_list_1:
-                temp_sorted_merged_list[current_index_temp_list] = list_1[current_index_list_1]
-                current_index_temp_list = current_index_temp_list + 1
-                current_index_list_1 = current_index_list_1 + 1
-    # print(temp_sorted_merged_list)
-    return temp_sorted_merged_list
-
-def merge_sort_impl_recursion(list_to_be_sorted):
+# Jieshu tries using recursion to write merge sort
+def merge_sort_impl_recursion_j(list_to_be_sorted: []) ->[]:
 
     list_size = len(list_to_be_sorted)
-    list_size_break_down = list_size
-    sorted_list = [None]
-    list_break_down = [None] * list_size_break_down
-    for each_index in range(0, list_size_break_down):
-        list_break_down[each_index] = [list_to_be_sorted[each_index]]
+    if list_size == 1:
+        sorted_list = list_to_be_sorted
+        return sorted_list
+
+    else:
+        mid_index = floor(list_size / 2)
+        left_list = list_to_be_sorted[:mid_index]
+        right_list = list_to_be_sorted[mid_index:]
+        left_list_sorted = merge_sort_impl_recursion_j(left_list)
+        right_list_sorted = merge_sort_impl_recursion_j(right_list)
+        sorted_list = list_compare_merge(left_list_sorted, right_list_sorted)
+        return sorted_list
 
 
 # Bilal -- initial impl of merge recursive algorithm
