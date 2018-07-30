@@ -91,60 +91,87 @@ def merge_sort_impl_recursion_j(list_to_be_sorted: []) ->[]:
         right_list = list_to_be_sorted[mid_index:]
         left_list_sorted = merge_sort_impl_recursion_j(left_list)
         right_list_sorted = merge_sort_impl_recursion_j(right_list)
-        sorted_list = list_compare_merge(left_list_sorted, right_list_sorted)
+        sorted_list = sort_merge_list(left_list_sorted, right_list_sorted)
         return sorted_list
 
 
-# Bilal -- initial impl of merge recursive algorithm
-def divide_conquer_sort(left_list: [], right_list: []) -> []:
-
-    sorted_left_list = [None] * len(left_list)
-    sorted_right_list = [None] * len(right_list)
-    if len(left_list) > 1:
-        mid_section = floor(len(left_list) / 2)
-        sorted_left_list = divide_conquer_sort(left_list[:mid_section], left_list[mid_section:])
-
-    if len(right_list) > 1:
-        mid_section = floor(len(right_list) / 2)
-        sorted_right_list = divide_conquer_sort(right_list[:mid_section], right_list[mid_section:])
-
+def sort_merge_list(left_side, right_side):
     right_index = 0
     left_index = 0
     current_index_on_result_list = 0
-    result_list = [None] * (len(sorted_left_list) + len(sorted_right_list))
+    result_list = [None] * (len(left_side) + len(right_side))
 
-    while left_index < len(sorted_left_list):
+    while left_index < len(left_side):
 
-        if right_index >= len(sorted_right_list):
-            result_list[current_index_on_result_list] = sorted_left_list[left_index]
+        if right_index >= len(right_side):
+            result_list[current_index_on_result_list] = left_side[left_index]
             left_index = left_index + 1
             current_index_on_result_list = current_index_on_result_list + 1
 
-        while right_index < len(sorted_right_list):
+        while right_index < len(right_side):
 
-            if sorted_left_list[left_index] < sorted_right_list[right_index]:
-                result_list[current_index_on_result_list] = sorted_left_list[left_index]
+            if left_side[left_index] < right_side[right_index]:
+                result_list[current_index_on_result_list] = left_side[left_index]
                 left_index = left_index + 1
                 current_index_on_result_list = current_index_on_result_list + 1
             else:
-                result_list[current_index_on_result_list] = sorted_right_list[right_index]
+                result_list[current_index_on_result_list] = right_side[right_index]
                 right_index = right_index + 1
                 current_index_on_result_list = current_index_on_result_list + 1
-
     return result_list
 
 
-def merge_sort_b(initial_list):
-    result_list = []
-    if len(initial_list) > 1:
-        mid_section = floor(len(initial_list) / 2)
-        result_list = divide_conquer_sort(initial_list[:mid_section], initial_list[mid_section:])
-    return result_list
+# Bilal -- initial impl of merge recursive algorithm
+# def divide_conquer_sort(left_list: [], right_list: []) -> []:
+#
+#     if len(left_list) > 1:
+#         mid_section = floor(len(left_list) / 2)
+#         sorted_left_list.append(divide_conquer_sort(left_list[:mid_section], left_list[mid_section:]))
+#
+#     if len(right_list) > 1:
+#         mid_section = floor(len(right_list) / 2)
+#         sorted_right_list.append(divide_conquer_sort(right_list[:mid_section], right_list[mid_section:]))
+#
+#     sorted_left_list = list(left_list)
+#     sorted_right_list = list(right_list)
+#
+#     right_index = 0
+#     left_index = 0
+#     current_index_on_result_list = 0
+#     result_list = [None] * (len(sorted_left_list) + len(sorted_right_list))
+#
+#     while left_index < len(sorted_left_list):
+#
+#         if right_index >= len(sorted_right_list):
+#             result_list[current_index_on_result_list] = sorted_left_list[left_index]
+#             left_index = left_index + 1
+#             current_index_on_result_list = current_index_on_result_list + 1
+#
+#         while right_index < len(sorted_right_list):
+#
+#             if sorted_left_list[left_index] < sorted_right_list[right_index]:
+#                 result_list[current_index_on_result_list] = sorted_left_list[left_index]
+#                 left_index = left_index + 1
+#                 current_index_on_result_list = current_index_on_result_list + 1
+#             else:
+#                 result_list[current_index_on_result_list] = sorted_right_list[right_index]
+#                 right_index = right_index + 1
+#                 current_index_on_result_list = current_index_on_result_list + 1
+#
+#     return sorted_left_list + sorted_right_list
+
+
+# def merge_sort_b(initial_list):
+#     result_list = []
+#     if len(initial_list) > 1:
+#         mid_section = floor(len(initial_list) / 2)
+#         result_list = divide_conquer_sort(initial_list[:mid_section], initial_list[mid_section:])
+#     return result_list
 
 
 # start of running code
 if __name__ == "__main__":
-    (sorted_list, random_list, reversed_list) = lists_generator(4, 4)
+    (sorted_list, random_list, reversed_list) = lists_generator(1000, 1000)
     #merge_sort_impl_j(reversed_list)
 
     print("-------------Testing Jieshu's Merge Sort Impl-------------")
@@ -154,7 +181,7 @@ if __name__ == "__main__":
     # print("Sorted list {} was sorted to {} in {} ms".format(sorted_list, result_sorted, (end_time - start_time)))
 
     start_time = float(time.time() * 1000)
-    result_reversed = merge_sort_b(reversed_list)
+    result_reversed = merge_sort_impl_recursion_j(reversed_list)
     end_time = float(time.time() * 1000)
     print("Reversed list {} was sorted to {} in {} ms".format(reversed_list, result_reversed, (end_time - start_time)))
 
