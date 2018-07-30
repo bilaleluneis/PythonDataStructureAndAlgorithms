@@ -4,6 +4,7 @@ __since__ = "July 2018"
 __email__ = "bilaleluneis@gmail.com and foundwonder@gmail.com"
 
 from numpy import random as random_generator
+from typing import Iterable
 import time
 
 
@@ -39,9 +40,9 @@ def sorting_finished_check(list_to_check):
 """
 
 
-def bubble_sort_impl_b(list_to_be_sorted):
+def bubble_sort_impl_b(list_to_be_sorted: Iterable) -> Iterable:
 
-    list_size = len(list_to_be_sorted)
+    list_size = len(list(list_to_be_sorted))
     current_index = list_size - 1
     sorted_array = list(list_to_be_sorted)
     number_of_iterations = 0
@@ -63,7 +64,7 @@ def bubble_sort_impl_b(list_to_be_sorted):
 
 
 # Jieshu's bubble sort impl
-def bubble_sort_impl_j(list_to_be_sorted):
+def bubble_sort_impl_j(list_to_be_sorted: Iterable) -> Iterable:
 
     result_list = list(list_to_be_sorted)
     sorting_finished = sorting_finished_check(result_list)
@@ -81,10 +82,10 @@ def bubble_sort_impl_j(list_to_be_sorted):
 
 # Optimized bubble sort from the pseudocode from Wikipedia
 # https://en.wikipedia.org/wiki/Bubble_sort#Optimizing_bubble_sort
-def bubble_sort_impl_optimized(list_to_be_sorted):
+def bubble_sort_impl_optimized(list_to_be_sorted: Iterable) -> Iterable:
 
     swap_check = True
-    list_size = len(list_to_be_sorted)
+    list_size = len(list(list_to_be_sorted))
     current_index = list_size - 1
     sorted_array = list(list_to_be_sorted)
     while swap_check:
