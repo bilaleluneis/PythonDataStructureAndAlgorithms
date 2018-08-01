@@ -24,7 +24,7 @@ def lists_generator(end_number: int, list_size: int) -> ([int], [int], [int]):
 # takes a function that accepts array/list of integers.
 # returns array/list of integers and a float representing
 # the execution time of the function in milliseconds.
-def time_it(function_to_time: callable([int]), function_input: [int]) -> ([int], float):
+def time_it(function_to_time, function_input: [int]) -> ([int], float):
     start_time = float(time() * 1000)
     function_output = function_to_time(function_input)
     end_time = float(time() * 1000)
@@ -62,8 +62,22 @@ def sort(list_to_sort: [int]) -> [int]:
     if len(list_to_sort) <= 1:
         return list_to_sort
 
-    sorted_list = list_to_sort
+    sorted_list = list(list_to_sort)
     return sorted(sorted_list)
+
+
+# used for pretty display of information on function behaviour and time complexity.
+# by default it will generate time complexity info, unless visualization_on is set to True,
+# then it will display how function algorithm behaves visually!
+def analyze(title: str, func, in_list: [int], visualization_on: bool = False):
+    print("-------------Testing {}-------------".format(title))
+    if visualization_on:
+        func(in_list, True)
+    else:
+        (result, time_ms) = time_it(func, in_list)
+        print("In {} ms, list {} was sorted to {}".format(time_ms, in_list, result))
+    print("-------------End of Testing {}-------------".format(title))
+    print()  # creating a new line
 
 
 # FIXME: get rid of the bellow if compare_equal works
