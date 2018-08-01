@@ -41,7 +41,7 @@ def insertion_sort_impl_j(list_to_be_sorted: [], visualize: bool = False) ->[]:
         print(result_list)
     for element in list_to_be_sorted[1:]:
         if element > result_list[-1]:
-            sorted_list.append(element)
+            result_list.append(element)
         elif element < result_list[0]:
             result_list.insert(0, element)
         else:
