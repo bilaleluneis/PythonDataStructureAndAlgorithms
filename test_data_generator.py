@@ -5,6 +5,7 @@ __email__ = "bilaleluneis@gmail.com and foundwonder@gmail.com"
 
 from numpy import random as random_generator
 import time
+import collections
 
 
 # Generate several lists to be sorted and return a tuple
@@ -29,3 +30,5 @@ def time_it(function_to_time: callable([int]), function_input: [int]) -> ([int],
     end_time = float(time.time() * 1000)
     return function_output, (end_time - start_time)
 
+
+compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
