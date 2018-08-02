@@ -5,7 +5,6 @@ __email__ = "bilaleluneis@gmail.com and foundwonder@gmail.com"
 
 from numpy import random as random_generator
 from time import time
-import collections
 
 
 # Generate several lists to be sorted and return a tuple
@@ -24,7 +23,7 @@ def lists_generator(end_number: int, list_size: int) -> ([int], [int], [int]):
 # takes a function that accepts array/list of integers.
 # returns array/list of integers and a float representing
 # the execution time of the function in milliseconds.
-def time_it(function_to_time, function_input: [int]) -> ([int], float):
+def time_it(function_to_time: callable, function_input: [int]) -> ([int], float):
     start_time = float(time() * 1000)
     function_output = function_to_time(function_input)
     end_time = float(time() * 1000)
@@ -69,7 +68,7 @@ def sort(list_to_sort: [int]) -> [int]:
 # used for pretty display of information on function behaviour and time complexity.
 # by default it will generate time complexity info, unless visualization_on is set to True,
 # then it will display how function algorithm behaves visually!
-def analyze(title: str, func, in_list: [int], visualization_on: bool = False):
+def analyze(title: str, func: callable, in_list: [int], visualization_on: bool = False):
     print("-------------Testing {}-------------".format(title))
     if visualization_on:
         func(in_list, True)
@@ -78,7 +77,3 @@ def analyze(title: str, func, in_list: [int], visualization_on: bool = False):
         print("In {} ms, list {} was sorted to {}".format(time_ms, in_list, result))
     print("-------------End of Testing {}-------------".format(title))
     print()  # creating a new line
-
-
-# FIXME: get rid of the bellow if compare_equal works
-compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
