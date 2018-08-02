@@ -42,11 +42,11 @@ def insertion_sort_impl_j(list_to_be_sorted: [], visualize: bool = False) ->[]:
     for element in list_to_be_sorted[1:]:
         if element > result_list[-1]:
             result_list.append(element)
-        elif element < result_list[0]:
+        elif element <= result_list[0]:
             result_list.insert(0, element)
         else:
             for x in list(range(len(result_list) - 1)):
-                if result_list[x] <= element <= result_list[x+1]:
+                if result_list[x] < element <= result_list[x+1]:
                     result_list.insert(x+1, element)
                     break
         if visualize:
