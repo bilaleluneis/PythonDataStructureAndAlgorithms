@@ -59,6 +59,6 @@ def insertion_sort_impl_j(list_to_be_sorted: [], visualize: bool = False) ->[]:
 # start of running code
 if __name__ == "__main__":
     (sorted_list, random_list, reversed_list) = lists_generator(10, 10)
-    visualization_on: bool = True
-    analyze("Bilal's Insertion Sort", insertion_sort_impl_b, random_list, visualization_on)
-    analyze("Jieshu's Insertion Sort", insertion_sort_impl_j, random_list, visualization_on)
+    visualization_on: bool = False
+    # analyze("Bilal's Insertion Sort", insertion_sort_impl_b, random_list, visualization_on)
+    analyze("Jieshu's Insertion Sort", insertion_sort_impl_j, [8, 8, 7, 4, 2, 2, 3, 0, 6, 3], visualization_on)
