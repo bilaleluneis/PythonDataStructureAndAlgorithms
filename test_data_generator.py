@@ -70,10 +70,11 @@ def sort(list_to_sort: [int]) -> [int]:
 # then it will display how function algorithm behaves visually!
 def analyze(title: str, func: callable, in_list: [int], visualization_on: bool = False):
     print("-------------Testing {}-------------".format(title))
+    (result, time_ms) = time_it(func, in_list)
     if visualization_on:
         func(in_list, True)
     else:
-        (result, time_ms) = time_it(func, in_list)
         print("In {} ms, list {} was sorted to {}".format(time_ms, in_list, result))
+    print("List Sort Success Status is {}".format(compare_equal(sort(in_list), result)))
     print("-------------End of Testing {}-------------".format(title))
     print()  # creating a new line
