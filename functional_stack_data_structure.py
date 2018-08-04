@@ -3,10 +3,10 @@ __author__ = "Jieshu Wang and Bilal El Uneis"
 __since__ = "Aug 2018"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
-from typing import Callable
+from typing import Callable, Optional
 
 stack_b = [int] * 0  # array of int of size 0 initially
-stack_j = []
+stack_j = [int] * 0
 
 
 def size_b(an_array: [int]) -> int:
@@ -65,7 +65,7 @@ def create_a_new_array_j(old_array: [int], add_number: int) -> [int]:
     return new_array
 
 
-def push_j(value: int) -> [int]:
+def push_j(value: int):
     global stack_j
     print("push {} into stack {}".format(value, stack_j))
     stack_j = create_a_new_array_j(stack_j, 1)
@@ -73,7 +73,7 @@ def push_j(value: int) -> [int]:
     print("stack after push is {}".format(stack_j))
 
 
-def pop_j() -> [int]:
+def pop_j() -> Optional[int]:
     global stack_j
     value = None
     if get_size_j(stack_j) > 0:
@@ -88,13 +88,13 @@ def push_b(value: int):
     global stack_b
     print("pushing {} into stack {}".format(value, stack_b))
     new_stack: [int] = increase_array_size_b(stack_b, 1)
-    index: int = (size_b(new_stack) - 1)
+    index: int = int(size_b(new_stack) - 1)
     new_stack[index] = value
     stack_b = new_stack
     print("stack after push {}".format(stack_b))
 
 
-def pop_b() -> int:
+def pop_b() -> Optional[int]:
     global stack_b
     index = size_b(stack_b) - 1
     result: int = None
@@ -107,10 +107,10 @@ def pop_b() -> int:
     return result
 
 
-def main(num_of_push_op: int, num_of_pop_op: int, push_func: Callable, pop_func: Callable):
-    for i in range(num_of_push_op):
+def main(num_push: int, num_pop: int, push_func: Callable[[int], None], pop_func: Callable[[], Optional[int]]):
+    for i in range(num_push):
         push_func(i)
-    for _ in range(num_of_pop_op):
+    for _ in range(num_pop):
         pop_func()
 
 
