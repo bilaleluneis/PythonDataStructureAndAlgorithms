@@ -3,6 +3,7 @@ __author__ = "Jieshu Wang and Bilal El Uneis"
 __since__ = "Aug 2018"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
+from typing import Callable
 
 stack_b = [int] * 0  # array of int of size 0 initially
 stack_j = []
@@ -106,26 +107,17 @@ def pop_b() -> int:
     return result
 
 
-def main_j(num_of_push_op: int, num_of_pop_op: int):
+def main(num_of_push_op: int, num_of_pop_op: int, push_func: Callable, pop_func: Callable):
     for i in range(num_of_push_op):
-        push_j(i)
-    for j in range(num_of_pop_op):
-        pop_j()
-
-
-def main_b():
-    push_b(9)
-    push_b(5)
-    pop_b()
-    pop_b()
-    pop_b()
-    pop_b()
+        push_func(i)
+    for _ in range(num_of_pop_op):
+        pop_func()
 
 
 # start of running code
 if __name__ == "__main__":
-    main_j(4, 5)
+    main(4, 5, push_j, pop_j)
     print()
     print("End Of Jieshu's Test, Begin Bilal's Test")
     print()
-    main_b()
+    main(8, 12, push_b, pop_b)
