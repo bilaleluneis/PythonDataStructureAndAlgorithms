@@ -3,6 +3,12 @@ __author__ = "Jieshu Wang and Bilal El Uneis"
 __since__ = "Aug 2018"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
+"""
+    Stack Data Structure Implementation using functions
+    and global variable. Mainly to understand the
+    algorithms and operations that define a stack behaviour.
+"""
+
 from typing import Callable, Optional
 
 stack_b = [int] * 0  # array of int of size 0 initially
@@ -69,7 +75,7 @@ def push_j(value: int):
     global stack_j
     print("push {} into stack {}".format(value, stack_j))
     stack_j = create_a_new_array_j(stack_j, 1)
-    stack_j[get_size_j(stack_j) - 1] = value
+    stack_j[get_size_j(stack_j) - 1] = value  # TODO: look into unexpected type(s) warning
     print("stack after push is {}".format(stack_j))
 
 
@@ -89,7 +95,7 @@ def push_b(value: int):
     print("pushing {} into stack {}".format(value, stack_b))
     new_stack: [int] = increase_array_size_b(stack_b, 1)
     index: int = int(size_b(new_stack) - 1)
-    new_stack[index] = value
+    new_stack[index] = value  # TODO: look into unexpected type(s) warning
     stack_b = new_stack
     print("stack after push {}".format(stack_b))
 
