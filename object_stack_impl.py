@@ -88,4 +88,4 @@ def main(num_push: int, num_pop: int):
 
 # start of running code
 if __name__ == "__main__":
-    main(10, 17)
+    main(num_push=10, num_pop=17)
