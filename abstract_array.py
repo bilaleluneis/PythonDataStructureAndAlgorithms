@@ -13,6 +13,13 @@ class AbstractArray:
         current_size = int(self._size(self._internal_array))
         return current_size
 
+    def _get_value_at_index(self, index: int) ->int:
+        get_value = self._internal_array[index]
+        return get_value
+
+    def _print_internal_array(self):
+        print(self._internal_array)
+
     def _size(self, an_array: [int]) -> int:
         array_size: int = 0
         for _ in an_array:
