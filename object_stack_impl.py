@@ -13,27 +13,28 @@ __email__ = "bilaleluneis@gmail.com"
 
 class Stack(AbstractArray):
 
-    def __init__(self):
+    def __init__(self, object_type: str = "Stack"):
         super().__init__()
-        print("new instance of Stack created! {}".format(self))
+        print("new instance of{} created! {}".format(object_type, self))
 
     # just return AbstractArray __str__ , Stack has no internal properties.
     def __str__(self):
         return super().__str__()
 
-    def push(self, value: int):
-        print("pushing {} into stack {}".format(value, self))
+    def push(self, value: int, object_type: str = "Stack"):
+        print("pushing {} into {} {}".format(value, object_type, self))
         self._increase_array_size(by_number_of_rows=1)
         self._assign_value_to_index(value, self._get_current_size() - 1)
-        print("stack after push {}".format(self))
+        print("{} after push {}".format(object_type, self))
 
-    def pop(self) -> Optional[int]:
+    def pop(self, object_type: str = "Stack") -> Optional[int]:
         current_size = self._get_current_size()
         if current_size > 0:
             value_popped = self._get_value_at_index(self._get_current_size() - 1)
-            print("popping {} from stack {}".format(value_popped, self))
+            print("popping {} from {} {}".format(value_popped, object_type, self))
             self._decrease_array_size(by_number_of_rows=1)
-            print("stack after pop {}".format(self))
+            print("{} after pop {}".format(object_type, self))
+            return value_popped
 
 
 def main(num_push: int, num_pop: int):
