@@ -5,6 +5,27 @@ __email__ = "bilaleluneis@gmail.com and foundwonder@gmail.com"
 
 from numpy import random as random_generator
 from time import time
+from typing import List
+import turtle
+
+
+# Class to work with Turtle commands and steps.
+# for now this is very simplistic impl, will need to
+# update it, to use property decorators,etc.
+class TurtleCommands:
+
+    __command: str
+    __number_of_steps: int
+
+    def __init__(self, command: str, number_of_steps: int):
+        self.__command = command
+        self.__number_of_steps = number_of_steps
+
+    def get_command(self) -> str:
+        return self.__command
+
+    def get_number_of_steps(self) -> int:
+        return self.__number_of_steps
 
 
 # Generate several lists to be sorted and return a tuple
@@ -78,3 +99,24 @@ def analyze(title: str, func: callable, in_list: [int], visualization_on: bool =
     print("List Sort Success Status is {}".format(compare_equal(sort(in_list), result)))
     print("-------------End of Testing {}-------------".format(title))
     print()  # creating a new line
+
+
+# simple method that will draw simple shapes defined
+# by passing list of TurtleCommands object
+def simple_turtle_draw(list_to_draw: List[TurtleCommands]):
+    turtle_object = turtle.Turtle()
+    screen = turtle.Screen()
+    screen.setup(400, 300)
+    screen.bgcolor("black")
+    turtle_object.pencolor("blue")
+    turtle_object.pensize(5)
+    turtle_object.speed(1)
+    turtle_object.shape("turtle")
+
+    for turtle_command in list_to_draw:
+        action = getattr(turtle_object, turtle_command.get_command())
+        action(turtle_command.get_number_of_steps())
+
+    turtle_object.penup()
+    turtle_object.ht()
+    turtle.done()
