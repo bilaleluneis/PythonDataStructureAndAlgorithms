@@ -7,25 +7,7 @@ from numpy import random as random_generator
 from time import time
 from typing import List
 import turtle
-
-
-# Class to work with Turtle commands and steps.
-# for now this is very simplistic impl, will need to
-# update it, to use property decorators,etc.
-class TurtleCommands:
-
-    __command: str
-    __number_of_steps: int
-
-    def __init__(self, command: str, number_of_steps: int):
-        self.__command = command
-        self.__number_of_steps = number_of_steps
-
-    def get_command(self) -> str:
-        return self.__command
-
-    def get_number_of_steps(self) -> int:
-        return self.__number_of_steps
+from shapes import TurtleCommands
 
 
 # Generate several lists to be sorted and return a tuple
