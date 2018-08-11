@@ -41,6 +41,8 @@ class Shape(ABC):
         Shape.__init_drawing_window()
         Shape.__init_drawing_pen()
 
+        print("instance counter is now {}".format(Shape.__instance_counter))
+
     def __del__(self):
         Shape.__instance_counter -= 1
 
@@ -74,7 +76,9 @@ class Shape(ABC):
             action(turtle_command.get_number_of_steps())
         Shape.__turtle.hideturtle()
         Shape.__shape_drawn_counter += 1
+        print("{} Shapes have been drawn so far!".format(Shape.__shape_drawn_counter))
         if Shape.__shape_drawn_counter == Shape.__instance_counter:
+            print("Drawing of all Shapes completed!")
             Shape.__turtle.getscreen().mainloop()
 
 
@@ -107,8 +111,8 @@ class Square(Shape):
                 TurtleCommands("forward", 30)]
 
     def draw(self):
-        super().draw()
         print("done drawing a Square !")
+        super().draw()
 
 
 def main():
