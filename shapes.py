@@ -32,7 +32,7 @@ class Shape(ABC):
     __instance_counter = 0
     __shape_drawn_counter = 0
 
-    def __init__(self, color: str= "blue", start_at_x: int= 0, start_at_y: int= 0):
+    def __init__(self, color: str, start_at_x: int, start_at_y: int):
         self.__start_at_x = start_at_x
         self.__start_at_y = start_at_y
         self.__color = color
@@ -80,7 +80,7 @@ class Shape(ABC):
 
 class Triangle(Shape):
 
-    def __init__(self, color: str, start_at_x: int, start_at_y: int):
+    def __init__(self, color: str="blue", start_at_x: int=0, start_at_y: int=0):
         super().__init__(color, start_at_x, start_at_y)
 
     def _get_drawing_information(self) -> List[TurtleCommands]:
@@ -94,7 +94,7 @@ class Triangle(Shape):
 
 class Square(Shape):
 
-    def __init__(self, color: str, start_at_x: int, start_at_y: int):
+    def __init__(self, color: str="red", start_at_x: int=0, start_at_y: int=0):
         super().__init__(color, start_at_x, start_at_y)
 
     def _get_drawing_information(self) -> List[TurtleCommands]:
@@ -108,8 +108,8 @@ class Square(Shape):
 
 
 def main():
-    shapes: [Shape] = [Triangle("blue", 0, 0),
-                       Square("red", 100, 100),
+    shapes: [Shape] = [Triangle(),
+                       Square(start_at_x=100, start_at_y=100),
                        Triangle("orange", 0, -100),
                        Square("green", 0, 100)]
     for shape in shapes:
