@@ -29,8 +29,8 @@ class Shape(ABC):
     # this is a class level and static vars!!
     __screen: Screen = None
     __turtle: Turtle = None
-    __instance_counter = 0
-    __shape_drawn_counter = 0
+    __instance_counter: int = 0
+    __shape_drawn_counter: int = 0
 
     def __init__(self, color: str, start_at_x: int, start_at_y: int):
         self.__start_at_x = start_at_x
@@ -105,6 +105,10 @@ class Square(Shape):
                 TurtleCommands("forward", 30),
                 TurtleCommands("left", 90),
                 TurtleCommands("forward", 30)]
+
+    def draw(self):
+        super().draw()
+        print("done drawing a Square !")
 
 
 def main():
