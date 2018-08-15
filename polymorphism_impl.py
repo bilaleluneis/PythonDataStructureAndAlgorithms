@@ -4,6 +4,7 @@ __email__ = "foundwonder@gmail.com"
 
 from abc import ABC, abstractmethod
 import turtle
+from typing import List
 
 
 class TurtleCommands:
@@ -101,11 +102,11 @@ class Hexagon(AbstractShape):
 
 
 def main():
-    shapes_to_draw = [Square("red", "green", 0, 0, side_len=60),
-                      Triangle("orange", "red", 50, 50, side_len=100),
-                      Hexagon("yellow", "yellow", -50, 50, side_len=50),
-                      Triangle("green", "purple", -50, -50, side_len=80),
-                      Square("blue", "blue", 20, -10, side_len=20)]
+    shapes_to_draw: List[AbstractShape] = [Square("red", "green", 0, 0, side_len=60),
+                                           Triangle("orange", "red", 50, 50, side_len=100),
+                                           Hexagon("yellow", "yellow", -50, 50, side_len=50),
+                                           Triangle("green", "purple", -50, -50, side_len=80),
+                                           Square("blue", "white", 70, -10, side_len=20)]
 
     for shape_to_draw in shapes_to_draw:
         shape_to_draw.draw()
