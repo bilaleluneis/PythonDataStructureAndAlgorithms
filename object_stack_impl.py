@@ -17,23 +17,15 @@ class Stack(AbstractArray):
         super().__init__()
         print("new instance of{} created! {}".format(object_type, self))
 
-    # just return AbstractArray __str__ , Stack has no internal properties.
-    def __str__(self):
-        return super().__str__()
-
-    def push(self, value: int, object_type: str = "Stack"):
-        print("pushing {} into {} {}".format(value, object_type, self))
+    def push(self, value: int):
         self._increase_array_size(by_number_of_rows=1)
-        self._assign_value_to_index(value, self._get_current_size() - 1)
-        print("{} after push {}".format(object_type, self))
+        self._assign_value_to_index(value, self._size - 1)
 
-    def pop(self, object_type: str = "Stack") -> Optional[int]:
-        current_size = self._get_current_size()
+    def pop(self) -> Optional[int]:
+        current_size = self._size
         if current_size > 0:
-            value_popped = self._get_value_at_index(self._get_current_size() - 1)
-            print("popping {} from {} {}".format(value_popped, object_type, self))
+            value_popped = self._get_value_at_index(self._size - 1)
             self._decrease_array_size(by_number_of_rows=1)
-            print("{} after pop {}".format(object_type, self))
             return value_popped
 
 
@@ -41,12 +33,15 @@ def main(num_push: int, num_pop: int):
     stack_instance = Stack()
 
     for i in range(num_push):
+        print("pushing {} into {} {}".format(i, "stack", stack_instance))
         stack_instance.push(i)
+        print("{} after push {}".format("stack", stack_instance))
 
     print()
 
     for _ in range(num_pop):
         value = stack_instance.pop()
+        print("{} after {} is poped {}".format("stack", value, stack_instance))
         del value  # just remove it from memory, don't really need it
 
     print()
