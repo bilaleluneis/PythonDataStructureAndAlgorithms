@@ -20,11 +20,11 @@ class Queue(Stack):
         value_popped = None
         current_size = self._get_current_size()
         if current_size > 0:
-            value_popped = self._get_value_at_index(index=0)
+            value_popped = self._get_value(at_index=0)
             print("popping {} from {} {}".format(value_popped, object_type, self))
             for x in range(1, current_size):
-                value = self._get_value_at_index(index=x)
-                self._assign_value_to_index(value_to_insert=value, at_index=x-1)
+                value = self._get_value(at_index=x)
+                self._set(value=value, at_index=x - 1)
             self._decrease_array_size(by_number_of_rows=1)
             print("{} after pop {}".format(object_type, self))
         return value_popped

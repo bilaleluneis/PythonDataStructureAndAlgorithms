@@ -11,6 +11,10 @@ from typing import Optional, Type, SupportsInt, List
 """
 
 
+class ArrayIndexOutOfBoundError(Exception):
+    pass
+
+
 class AbstractArray:
 
     def __init__(self):
@@ -24,7 +28,8 @@ class AbstractArray:
 
     # returns a string representation of AbstractArray internal information
     def __str__(self):
-        discription: str = "["
+        class_name: str = type(self).__name__
+        discription: str = "{} [".format(class_name)
 
         for entry in self.__internal_array:
             discription += "{}, ".format(entry)
@@ -40,18 +45,20 @@ class AbstractArray:
             array_size += 1
         return array_size
 
-    def _get_value_at_index(self, index: int) -> Optional[int]:
-        if index < 0 or index >= self._size:
+    def _get_value(self, at_index: int) -> Optional[int]:
+        if at_index < 0 or at_index >= self._size:
             return None  # index provided falls out of range of the array!
         else:
-            get_value: Type[int, SupportsInt] = self.__internal_array[index]
+            get_value: Type[int, SupportsInt] = self.__internal_array[at_index]
             return int(get_value)  # return a copy of that value and not reference!
 
-    def _assign_value_to_index(self, value_to_insert: int, at_index: int):
+    def _set(self, value: int, at_index: int):
         if at_index < 0 or at_index >= self._size:
-            return
+            class_name: str = type(self).__name__
+            error: str = "{} _set[{}] = {} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
+            raise ArrayIndexOutOfBoundError(error)
         else:
-            self.__internal_array[at_index] = value_to_insert
+            self.__internal_array[at_index] = int(value)  # make a copy and place in index of the array
 
     def _increase_array_size(self, by_number_of_rows: int):
         original_array_size = self._size
@@ -81,3 +88,11 @@ class AbstractArray:
                 index += 1
             del self.__internal_array
             self.__internal_array = new_array
+
+
+class AbstractArrayListImpl(AbstractArray):
+    pass
+
+
+class AbstractArrayNodeImpl(AbstractArray):
+    pass
