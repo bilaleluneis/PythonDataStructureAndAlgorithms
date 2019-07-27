@@ -5,12 +5,6 @@ __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 from typing import Optional, Type, SupportsInt, List
 from abc import ABC, abstractmethod
 
-"""
-    This will eventually become a True Abstract class. for now
-    we have everything at private or protected scope, so creating
-    instance of this class is useless on its own.
-"""
-
 
 class ArrayIndexOutOfBoundError(Exception):
     pass
@@ -48,6 +42,7 @@ class ArrayListImpl(AbstractArray):
     def __init__(self):
         super().__init__()
         self.__internal_array: List[Type[int, SupportsInt]] = [int] * 0
+        self._class_name: str = type(self).__name__
 
     def __str__(self):
         description: str = "{} [".format(self._class_name)
@@ -60,12 +55,14 @@ class ArrayListImpl(AbstractArray):
         return description
 
     @property
+    @abstractmethod
     def _size(self) -> int:
         array_size: int = 0
         for _ in self.__internal_array:
             array_size += 1
         return array_size
 
+    @abstractmethod
     def _get(self, at_index: int) -> Optional[int]:  # returns an int or None
         if at_index < 0 or at_index >= self._size:
             return None  # index provided falls out of range of the array!
@@ -73,6 +70,7 @@ class ArrayListImpl(AbstractArray):
             get_value: Type[int, SupportsInt] = self.__internal_array[at_index]
             return int(get_value)  # return a copy of that value and not reference!
 
+    @abstractmethod
     def _remove(self, at_index: Optional[int] = None) -> Optional[int]:
         resolved_index: int
 
@@ -95,6 +93,7 @@ class ArrayListImpl(AbstractArray):
 
         return value_at_index
 
+    @abstractmethod
     def _set(self, value: int, at_index: int):
         if at_index < 0 or at_index >= self._size:
             class_name: str = type(self).__name__
@@ -103,6 +102,7 @@ class ArrayListImpl(AbstractArray):
         else:
             self.__internal_array[at_index] = int(value)  # make a copy and place in index of the array
 
+    @abstractmethod
     def _insert(self, value: int, at_index: Optional[int] = None):
         inserted_value: List[Type[int, SupportsInt]] = [int] * 1
         inserted_value[0] = int(value)
@@ -120,4 +120,23 @@ class ArrayListImpl(AbstractArray):
 
 
 class ArrayNodeImpl(AbstractArray):
-    pass
+
+    def __init__(self):
+        super().__init__()
+        self.__size: int = 0
+
+    @property
+    def _size(self) -> int:
+        return self.__size
+
+    def _get(self, at_index: int) -> Optional[int]:
+        pass
+
+    def _remove(self, at_index: Optional[int] = None) -> Optional[int]:
+        pass
+
+    def _set(self, value: int, at_index: int):
+        pass
+
+    def _insert(self, value: int, at_index: Optional[int] = None):
+        pass
