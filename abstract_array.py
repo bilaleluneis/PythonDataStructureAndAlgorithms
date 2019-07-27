@@ -49,7 +49,9 @@ class ArrayListImpl(AbstractArray):
         for entry in self.__internal_array:
             description += "{}, ".format(entry)
 
-        description = description[:-2]  # remove last space and last ','
+        if self.size > 0:
+            description = description[:-2]  # remove last space and last ','
+
         description += "]"
         return description
 
