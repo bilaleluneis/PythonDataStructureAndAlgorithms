@@ -3,7 +3,7 @@ __since__ = "Aug 2018"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
 from typing import Optional, Type, SupportsInt, List
-from abc import ABC
+from abc import ABC, abstractmethod
 
 """
     This will eventually become a True Abstract class. for now
@@ -19,18 +19,38 @@ class ArrayIndexOutOfBoundError(Exception):
 class AbstractArray(ABC):
 
     def __init__(self):
-        """
-        __internal_array is a list of type int or anything that supports type int
-        needed to add SupportsInt to clear warnings from PyCharm about
-        int() call that threw back that it expected type of SupportsInt and not
-        Type[int]
-        """
+        self._class_name: str = type(self).__name__
+
+    @property
+    @abstractmethod
+    def _size(self) -> int:
+        pass
+
+    @abstractmethod
+    def _get(self, at_index: int) -> Optional[int]:  # returns an int or None
+        pass
+
+    @abstractmethod
+    def _remove(self, at_index: Optional[int] = None) -> Optional[int]:
+        pass
+
+    @abstractmethod
+    def _set(self, value: int, at_index: int):
+        pass
+
+    @abstractmethod
+    def _insert(self, value: int, at_index: Optional[int] = None):
+        pass
+
+
+class ArrayListImpl(AbstractArray):
+
+    def __init__(self):
+        super().__init__()
         self.__internal_array: List[Type[int, SupportsInt]] = [int] * 0
 
-    # returns a string representation of AbstractArray internal information
     def __str__(self):
-        class_name: str = type(self).__name__
-        description: str = "{} [".format(class_name)
+        description: str = "{} [".format(self._class_name)
 
         for entry in self.__internal_array:
             description += "{}, ".format(entry)
@@ -97,10 +117,6 @@ class AbstractArray(ABC):
             class_name: str = type(self).__name__
             error: str = "{}._insert[{}]={} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
             raise ArrayIndexOutOfBoundError(error)
-
-
-class ArrayListImpl(AbstractArray):
-    pass
 
 
 class ArrayNodeImpl(AbstractArray):
