@@ -79,17 +79,19 @@ class ArrayListImpl(AbstractArray):
 
         if value_at_index is not None:
             new_array: List[Type[int, SupportsInt]] = [int] * (self.size - 1)
+            new_array_index: int = 0
 
             for index in range(self.size):
                 if index != resolved_index:
-                    new_array += int(self.__internal_array[index])
+                    new_array[new_array_index] = (int(self.__internal_array[index]))
+                    new_array_index += 1
 
             del self.__internal_array
             self.__internal_array = new_array
 
         return value_at_index
 
-    def set(self, value: int, at_index: int):
+    def set(self, value: int, at_index: int) -> None:
         if at_index < 0 or at_index >= self.size:
             class_name: str = self._class_name
             error: str = "{} _set[{}] = {} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
@@ -102,7 +104,7 @@ class ArrayListImpl(AbstractArray):
         inserted_value[0] = int(value)
         if at_index is None:
             self.__internal_array += inserted_value
-        elif at_index in range(0, self.size - 1):
+        elif at_index in range(0, self.size):
             left_array: List[Type[int, SupportsInt]] = list(self.__internal_array[:at_index])
             right_array: List[Type[int, SupportsInt]] = list(self.__internal_array[at_index:])
             del self.__internal_array
