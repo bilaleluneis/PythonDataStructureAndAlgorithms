@@ -17,23 +17,23 @@ class AbstractArray(ABC):
 
     @property
     @abstractmethod
-    def _size(self) -> int:
+    def size(self) -> int:
         pass
 
     @abstractmethod
-    def _get(self, at_index: int) -> Optional[int]:  # returns an int or None
+    def get(self, at_index: int) -> Optional[int]:  # returns an int or None
         pass
 
     @abstractmethod
-    def _remove(self, at_index: Optional[int] = None) -> Optional[int]:
+    def remove(self, at_index: Optional[int] = None) -> Optional[int]:
         pass
 
     @abstractmethod
-    def _set(self, value: int, at_index: int):
+    def set(self, value: int, at_index: int):
         pass
 
     @abstractmethod
-    def _insert(self, value: int, at_index: Optional[int] = None):
+    def insert(self, value: int, at_index: Optional[int] = None):
         pass
 
 
@@ -56,35 +56,35 @@ class ArrayListImpl(AbstractArray):
 
     @property
     @abstractmethod
-    def _size(self) -> int:
+    def size(self) -> int:
         array_size: int = 0
         for _ in self.__internal_array:
             array_size += 1
         return array_size
 
     @abstractmethod
-    def _get(self, at_index: int) -> Optional[int]:  # returns an int or None
-        if at_index < 0 or at_index >= self._size:
+    def get(self, at_index: int) -> Optional[int]:  # returns an int or None
+        if at_index < 0 or at_index >= self.size:
             return None  # index provided falls out of range of the array!
         else:
             get_value: Type[int, SupportsInt] = self.__internal_array[at_index]
             return int(get_value)  # return a copy of that value and not reference!
 
     @abstractmethod
-    def _remove(self, at_index: Optional[int] = None) -> Optional[int]:
+    def remove(self, at_index: Optional[int] = None) -> Optional[int]:
         resolved_index: int
 
         if at_index is None:
-            resolved_index = self._size - 1
+            resolved_index = self.size - 1
         else:
             resolved_index = at_index
 
-        value_at_index: Optional[int] = self._get(resolved_index)
+        value_at_index: Optional[int] = self.get(resolved_index)
 
         if value_at_index is not None:
-            new_array: List[Type[int, SupportsInt]] = [int] * (self._size - 1)
+            new_array: List[Type[int, SupportsInt]] = [int] * (self.size - 1)
 
-            for index in range(self._size):
+            for index in range(self.size):
                 if index != resolved_index:
                     new_array += int(self.__internal_array[index])
 
@@ -94,8 +94,8 @@ class ArrayListImpl(AbstractArray):
         return value_at_index
 
     @abstractmethod
-    def _set(self, value: int, at_index: int):
-        if at_index < 0 or at_index >= self._size:
+    def set(self, value: int, at_index: int):
+        if at_index < 0 or at_index >= self.size:
             class_name: str = type(self).__name__
             error: str = "{} _set[{}] = {} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
             raise ArrayIndexOutOfBoundError(error)
@@ -103,12 +103,12 @@ class ArrayListImpl(AbstractArray):
             self.__internal_array[at_index] = int(value)  # make a copy and place in index of the array
 
     @abstractmethod
-    def _insert(self, value: int, at_index: Optional[int] = None):
+    def insert(self, value: int, at_index: Optional[int] = None):
         inserted_value: List[Type[int, SupportsInt]] = [int] * 1
         inserted_value[0] = int(value)
         if at_index is None:
             self.__internal_array += inserted_value
-        elif at_index in range(0, self._size - 1):
+        elif at_index in range(0, self.size - 1):
             left_array: List[Type[int, SupportsInt]] = list(self.__internal_array[:at_index])
             right_array: List[Type[int, SupportsInt]] = list(self.__internal_array[at_index:])
             del self.__internal_array
@@ -126,17 +126,17 @@ class ArrayNodeImpl(AbstractArray):
         self.__size: int = 0
 
     @property
-    def _size(self) -> int:
+    def size(self) -> int:
         return self.__size
 
-    def _get(self, at_index: int) -> Optional[int]:
+    def get(self, at_index: int) -> Optional[int]:
         pass
 
-    def _remove(self, at_index: Optional[int] = None) -> Optional[int]:
+    def remove(self, at_index: Optional[int] = None) -> Optional[int]:
         pass
 
-    def _set(self, value: int, at_index: int):
+    def set(self, value: int, at_index: int):
         pass
 
-    def _insert(self, value: int, at_index: Optional[int] = None):
+    def insert(self, value: int, at_index: Optional[int] = None):
         pass
