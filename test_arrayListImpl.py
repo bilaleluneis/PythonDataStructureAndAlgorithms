@@ -16,6 +16,10 @@ class TestArrayListImpl(TestCase):
     def setUp(self):
         pass
 
+    def test00_validate_instance_creation(self):
+        test_array: ArrayListImpl = ArrayListImpl()
+        self.assertTrue(test_array.size == 0)
+
     def test01_insert_without_index(self):
         test_array: ArrayListImpl = ArrayListImpl()
         test_array.insert(1)
