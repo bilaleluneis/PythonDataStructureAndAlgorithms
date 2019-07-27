@@ -42,7 +42,6 @@ class ArrayListImpl(AbstractArray):
     def __init__(self):
         super().__init__()
         self.__internal_array: List[Type[int, SupportsInt]] = [int] * 0
-        self._class_name: str = type(self).__name__
 
     def __str__(self):
         description: str = "{} [".format(self._class_name)
@@ -55,14 +54,12 @@ class ArrayListImpl(AbstractArray):
         return description
 
     @property
-    @abstractmethod
     def size(self) -> int:
         array_size: int = 0
         for _ in self.__internal_array:
             array_size += 1
         return array_size
 
-    @abstractmethod
     def get(self, at_index: int) -> Optional[int]:  # returns an int or None
         if at_index < 0 or at_index >= self.size:
             return None  # index provided falls out of range of the array!
@@ -70,7 +67,6 @@ class ArrayListImpl(AbstractArray):
             get_value: Type[int, SupportsInt] = self.__internal_array[at_index]
             return int(get_value)  # return a copy of that value and not reference!
 
-    @abstractmethod
     def remove(self, at_index: Optional[int] = None) -> Optional[int]:
         resolved_index: int
 
@@ -93,16 +89,14 @@ class ArrayListImpl(AbstractArray):
 
         return value_at_index
 
-    @abstractmethod
     def set(self, value: int, at_index: int):
         if at_index < 0 or at_index >= self.size:
-            class_name: str = type(self).__name__
+            class_name: str = self._class_name
             error: str = "{} _set[{}] = {} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
             raise ArrayIndexOutOfBoundError(error)
         else:
             self.__internal_array[at_index] = int(value)  # make a copy and place in index of the array
 
-    @abstractmethod
     def insert(self, value: int, at_index: Optional[int] = None):
         inserted_value: List[Type[int, SupportsInt]] = [int] * 1
         inserted_value[0] = int(value)
@@ -114,7 +108,7 @@ class ArrayListImpl(AbstractArray):
             del self.__internal_array
             self.__internal_array = left_array + inserted_value + right_array
         else:
-            class_name: str = type(self).__name__
+            class_name: str = self._class_name
             error: str = "{}._insert[{}]={} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
             raise ArrayIndexOutOfBoundError(error)
 
