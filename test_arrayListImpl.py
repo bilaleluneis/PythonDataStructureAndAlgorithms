@@ -10,14 +10,11 @@ import logging as log
 class TestArrayListImpl(TestCase):
 
     @classmethod
-    def setUpClass(cls) -> None:
+    def setUpClass(cls):
         log.basicConfig(level=log.INFO)
 
-    def setUp(self) -> None:
-        self.list_array_0: ArrayListImpl = ArrayListImpl()
-        self.list_array_5: ArrayListImpl = ArrayListImpl()
-        for i in range(5):
-            self.list_array_5.insert(i+1)
+    def setUp(self):
+        pass
 
     def test01_insert_without_index(self):
         test_array: ArrayListImpl = ArrayListImpl()
@@ -30,14 +27,14 @@ class TestArrayListImpl(TestCase):
         test_array.insert(1)
         test_array.insert(5)
         for i in range(2, 5):
-            test_array.insert(i, i-1)
+            test_array.insert(i, i - 1)
         print_array = str(test_array)
         self.assertEqual('ArrayListImpl [1, 2, 3, 4, 5]', print_array)
 
     def test03_insert_exception(self):
-        test_array: ArrayListImpl = ArrayListImpl() # empty
-        test_array.insert(1) # test_array = [1]
-        test_array.insert(2) # test_array = [1, 2]
+        test_array: ArrayListImpl = ArrayListImpl()  # empty
+        test_array.insert(1)  # test_array = [1]
+        test_array.insert(2)  # test_array = [1, 2]
         test_index_exception = [-1, 2, 5]
         for i in test_index_exception:
             with self.subTest(i):
@@ -49,7 +46,7 @@ class TestArrayListImpl(TestCase):
         elif size > 0:
             self.array_instance: ArrayListImpl = ArrayListImpl()
             for i in range(size):
-                self.array_instance.insert(i+1)
+                self.array_instance.insert(i + 1)
         return self.array_instance
 
     def test04_size_0(self):
@@ -76,7 +73,7 @@ class TestArrayListImpl(TestCase):
         test_array = self.array_instance_generator(5)
         for i in range(5):
             with self.subTest(i):
-                self.assertEqual(test_array.get(i), i+1)
+                self.assertEqual(test_array.get(i), i + 1)
 
     def test08_get_none(self):
         test_array = self.array_instance_generator()
@@ -115,23 +112,22 @@ class TestArrayListImpl(TestCase):
     def test13_set_1(self):
         test_array = self.array_instance_generator(5)
         for i in range(5):
-            test_array.set(i+10, i)
+            test_array.set(i + 10, i)
         for i in range(5):
             with self.subTest(i):
                 test_value = test_array.get(i)
-                self.assertEqual(test_value, i+10)
+                self.assertEqual(test_value, i + 10)
 
-    def test_set_exception(self):
+    def test14_set_exception(self):
         test_array = self.array_instance_generator(5)
         invalid_index_list = [-1, 5, 15]
         for i in invalid_index_list:
             with self.subTest(i):
                 self.assertRaises(ArrayIndexOutOfBoundError, test_array.set, 6, i)
 
-    def tearDown(self) -> None:
-        # self.array = None
+    def tearDown(self):
         pass
 
     @classmethod
-    def tearDownClass(cls) -> None:
+    def tearDownClass(cls):
         pass

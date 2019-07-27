@@ -12,7 +12,7 @@ class ArrayIndexOutOfBoundError(Exception):
 
 class AbstractArray(ABC):
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._class_name: str = type(self).__name__
 
     @property
@@ -29,21 +29,21 @@ class AbstractArray(ABC):
         pass
 
     @abstractmethod
-    def set(self, value: int, at_index: int):
+    def set(self, value: int, at_index: int) -> None:
         pass
 
     @abstractmethod
-    def insert(self, value: int, at_index: Optional[int] = None):
+    def insert(self, value: int, at_index: Optional[int] = None) -> None:
         pass
 
 
 class ArrayListImpl(AbstractArray):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.__internal_array: List[Type[int, SupportsInt]] = [int] * 0
 
-    def __str__(self):
+    def __str__(self) -> str:
         description: str = "{} [".format(self._class_name)
 
         for entry in self.__internal_array:
@@ -99,7 +99,7 @@ class ArrayListImpl(AbstractArray):
         else:
             self.__internal_array[at_index] = int(value)  # make a copy and place in index of the array
 
-    def insert(self, value: int, at_index: Optional[int] = None):
+    def insert(self, value: int, at_index: Optional[int] = None) -> None:
         inserted_value: List[Type[int, SupportsInt]] = [int] * 1
         inserted_value[0] = int(value)
         if at_index is None:
@@ -117,7 +117,7 @@ class ArrayListImpl(AbstractArray):
 
 class ArrayNodeImpl(AbstractArray):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.__size: int = 0
 
@@ -131,8 +131,8 @@ class ArrayNodeImpl(AbstractArray):
     def remove(self, at_index: Optional[int] = None) -> Optional[int]:
         pass
 
-    def set(self, value: int, at_index: int):
+    def set(self, value: int, at_index: int) -> None:
         pass
 
-    def insert(self, value: int, at_index: Optional[int] = None):
+    def insert(self, value: int, at_index: Optional[int] = None) -> None:
         pass
