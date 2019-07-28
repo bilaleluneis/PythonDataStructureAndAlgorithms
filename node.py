@@ -27,9 +27,20 @@ class Node:
         else:  # must be a boolean type
             return bool(self.__value)
 
+    @value.setter
+    def value(self, new_value: T):
+        if type(self.value) is int:
+            self.__value = int(new_value)
+        else:
+            self.__value = bool(new_value)
+
     @property
     def id(self) -> int:
         return int(self.__uid)
+
+    @id.setter
+    def id(self, new_id: int):
+        self.__uid = int(new_id)
 
     @property
     def child(self) -> Node:

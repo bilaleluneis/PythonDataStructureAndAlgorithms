@@ -32,6 +32,23 @@ class TestNode(TestCase):
     def test_2_raise_exception_on_reinit_child(self):
         self.assertRaises(NodeAlreadyInitializedError, TestNode.__node.init_child, 2, 6)
 
+    def test_3_update_nodes_values(self):
+        # update the parent node id
+        original_node_id: int = TestNode.__node.id
+        TestNode.__node.id = int(original_node_id + 1)
+        self.assertEqual(TestNode.__node.id, original_node_id + 1)
+
+        # update the child  node id
+        original_child_node_id: int = TestNode.__node.child.id
+        TestNode.__node.child.id = int(original_child_node_id + 1)
+        self.assertEqual(TestNode.__node.child.id, original_child_node_id + 1)
+
+        # upate the parent node value
+        origianl_node_value: int = TestNode.__node.value
+        TestNode.__node.value = int(TestNode.__node.child.value)
+        self.assertNotEqual(TestNode.__node.value, origianl_node_value)
+        self.assertEqual(TestNode.__node.value, TestNode.__node.child.value)
+
     def tearDown(self):
         pass
 
