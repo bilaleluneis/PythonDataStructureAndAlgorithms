@@ -23,7 +23,7 @@ class QueueListImplComposition(object):
         self.__internal_queue: ArrayListImpl = ArrayListImpl()
 
     @property
-    def size(self):
+    def size(self) -> int:
         return self.__internal_queue.size
 
     def __str__(self) -> str:
