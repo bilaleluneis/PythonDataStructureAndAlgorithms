@@ -22,10 +22,20 @@ class TestStackListImpl(TestCase):
     def test00_validate_instance_creation(self):
         self.assertTrue(TestStackListImpl.__stack_inheritance.size == 0)
         self.assertTrue(TestStackListImpl.__stack_composition.size == 0)
-
-    def test01_name(self):
         self.assertEqual('StackListImpl []', str(TestStackListImpl.__stack_inheritance))
         self.assertEqual('StackListCompoImpl []', str(TestStackListImpl.__stack_composition))
+
+    def test01_pop_empty(self):
+        test_stack_inheritance = TestStackListImpl.__stack_inheritance
+        test_stack_composition = TestStackListImpl.__stack_composition
+        popped_value_inheritance = test_stack_inheritance.pop()
+        popped_value_composition = test_stack_composition.pop()
+        self.assertEqual(popped_value_inheritance, None)
+        self.assertEqual(popped_value_composition, None)
+        self.assertEqual(test_stack_inheritance.size, 0)
+        self.assertEqual(test_stack_composition.size, 0)
+        self.assertEqual('StackListImpl []', str(test_stack_inheritance))
+        self.assertEqual('StackListCompoImpl []', str(test_stack_composition))
 
     def test02_push_empty(self):
         test_stack_inheritance = TestStackListImpl.__stack_inheritance
@@ -54,20 +64,6 @@ class TestStackListImpl(TestCase):
         self.assertEqual(test_stack_composition.size, 1)
         self.assertEqual('StackListImpl [1]', str(test_stack_inheritance))
         self.assertEqual('StackListCompoImpl [1]', str(test_stack_composition))
-
-    def test05_pop_empty(self):
-        test_stack_inheritance = TestStackListImpl.__stack_inheritance
-        test_stack_composition = TestStackListImpl.__stack_composition
-        test_stack_inheritance.pop()
-        test_stack_composition.pop()
-        popped_value_inheritance = test_stack_inheritance.pop()
-        popped_value_composition = test_stack_composition.pop()
-        self.assertEqual(popped_value_inheritance, None)
-        self.assertEqual(popped_value_composition, None)
-        self.assertEqual(test_stack_inheritance.size, 0)
-        self.assertEqual(test_stack_composition.size, 0)
-        self.assertEqual('StackListImpl []', str(test_stack_inheritance))
-        self.assertEqual('StackListCompoImpl []', str(test_stack_composition))
 
     def tearDown(self):
         pass
