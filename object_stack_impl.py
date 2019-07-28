@@ -1,52 +1,43 @@
-from typing import Optional
-from abstract_array import AbstractArray
-
 __author__ = "Bilal El Uneis & Jieshu Wang"
 __since__ = "Aug 2018"
-__email__ = "bilaleluneis@gmail.com"
+__email__ = "bilaleluneis@gmail.com, foundwonder@gmail.com"
 
 """
     Stack Data Structure Implementation using classes. this
     this is now updated to use inheritance and access modifiers.
 """
 
+from abstract_array import *
 
-class Stack(AbstractArray):
 
-    def __init__(self, object_type: str = "Stack"):
+class StackListImpl(ArrayListImpl):
+
+    def __init__(self):
         super().__init__()
-        print("new instance of{} created! {}".format(object_type, self))
 
-    def push(self, value: int):
-        self._increase_array_size(by_number_of_rows=1)
-        self._set(value, self._size - 1)
+    def push(self, value) -> None:
+        self.insert(value)
 
     def pop(self) -> Optional[int]:
-        current_size = self._size
-        if current_size > 0:
-            value_popped = self._get_value(self._size - 1)
-            self._decrease_array_size(by_number_of_rows=1)
-            return value_popped
+        return self.remove()
 
 
-def main(num_push: int, num_pop: int):
-    stack_instance = Stack()
+class StackListCompoImpl(object):
 
-    for i in range(num_push):
-        print("pushing {} into {}".format(i, stack_instance))
-        stack_instance.push(i)
-        print("after push : {}".format(stack_instance))
+    def __init__(self):
+        self.__internal_stack: ArrayListImpl = ArrayListImpl()
 
-    print()
+    @property
+    def size(self):
+        return self.__internal_stack.size
 
-    for _ in range(num_pop):
-        value = stack_instance.pop()
-        print("after {} is poped : {}".format(value, stack_instance))
-        del value  # just remove it from memory, don't really need it
+    def __str__(self) -> str:
+        description = str(self.__internal_stack)
+        description = description.replace("ArrayListImpl", type(self).__name__)
+        return description
 
-    print()
+    def push(self, value) -> None:
+        self.__internal_stack.insert(value)
 
-
-# start of running code
-if __name__ == "__main__":
-    main(num_pop=17, num_push=10)
+    def pop(self) -> Optional[int]:
+        return self.__internal_stack.remove()
