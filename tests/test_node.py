@@ -37,18 +37,22 @@ class TestNode(TestCase):
         TestNode.__node.id = int(original_node_id + 1)
         self.assertEqual(TestNode.__node.id, original_node_id + 1)
 
-        # update the child  node id
+        # update the child node id
         original_child_node_id: int = TestNode.__node.child.id
         TestNode.__node.child.id = int(original_child_node_id + 1)
         self.assertEqual(TestNode.__node.child.id, original_child_node_id + 1)
-        with self.assertRaises(InvalidTypeError):
-            TestNode.__node.child.id = "True"
 
         # update the parent node value
         original_node_value: int = TestNode.__node.value
         TestNode.__node.value = int(TestNode.__node.child.value)
         self.assertNotEqual(TestNode.__node.value, original_node_value)
         self.assertEqual(TestNode.__node.value, TestNode.__node.child.value)
+
+    def test_4_invalid_exception_value(self):
+        with self.assertRaises(InvalidTypeError):
+            TestNode.__node.child.id = "True"
+
+    def test_5_invalid_exception_id(self):
         with self.assertRaises(InvalidTypeError):
             TestNode.__node.value = "True"
 
