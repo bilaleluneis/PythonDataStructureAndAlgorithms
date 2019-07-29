@@ -14,6 +14,10 @@ class NodeAlreadyInitializedError(Exception):
     pass
 
 
+class InvalidTypeError(Exception):
+    pass
+
+
 class Node:
     def __init__(self, uid: int, value: T) -> None:
         self.__uid = uid
@@ -29,10 +33,12 @@ class Node:
 
     @value.setter
     def value(self, new_value: T):
-        if type(self.value) is int:
+        if type(new_value) is int:
             self.__value = int(new_value)
-        else:
+        elif type(new_value) is bool:
             self.__value = bool(new_value)
+        else:
+            raise InvalidTypeError("The type of input value is invalid.")
 
     @property
     def id(self) -> int:
@@ -40,7 +46,10 @@ class Node:
 
     @id.setter
     def id(self, new_id: int):
-        self.__uid = int(new_id)
+        if type(new_id) is int:
+            self.__uid = int(new_id)
+        else:
+            raise InvalidTypeError("The type of input value is invalid.")
 
     @property
     def child(self) -> Node:
