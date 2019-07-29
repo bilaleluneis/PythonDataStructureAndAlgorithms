@@ -52,7 +52,7 @@ class Node:
             raise InvalidTypeError("The type of input value is invalid.")
 
     @property
-    def child(self) -> Node:
+    def child(self) -> Optional[Node]:
         return self.__child_node
 
     def init_child(self, uid: int, value: T) -> None:
