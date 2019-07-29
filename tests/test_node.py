@@ -3,12 +3,11 @@ __since__ = "July 2019"
 __email__ = "bilaleluneis@gmail.com"
 
 from unittest import TestCase
-from node import Node, NodeAlreadyInitializedError
+from node import Node, NodeAlreadyInitializedError, InvalidTypeError
 from typing import Optional
 
 
 class TestNode(TestCase):
-
     __node: Optional[Node] = None
 
     @classmethod
@@ -42,12 +41,16 @@ class TestNode(TestCase):
         original_child_node_id: int = TestNode.__node.child.id
         TestNode.__node.child.id = int(original_child_node_id + 1)
         self.assertEqual(TestNode.__node.child.id, original_child_node_id + 1)
+        with self.assertRaises(InvalidTypeError):
+            TestNode.__node.child.id = "True"
 
-        # upate the parent node value
-        origianl_node_value: int = TestNode.__node.value
+        # update the parent node value
+        original_node_value: int = TestNode.__node.value
         TestNode.__node.value = int(TestNode.__node.child.value)
-        self.assertNotEqual(TestNode.__node.value, origianl_node_value)
+        self.assertNotEqual(TestNode.__node.value, original_node_value)
         self.assertEqual(TestNode.__node.value, TestNode.__node.child.value)
+        with self.assertRaises(InvalidTypeError):
+            TestNode.__node.value = "True"
 
     def tearDown(self):
         pass
