@@ -1,4 +1,3 @@
-
 __author__ = "Bilal El Uneis"
 __since__ = "August 2018"
 __email__ = "bilaleluneis@gmail.com"
@@ -11,21 +10,22 @@ from turtle import Turtle, Screen
 # Class to work with Turtle commands and steps.
 # for now this is very simplistic impl, will need to
 # update it, to use property decorators,etc.
-class TurtleCommands:
+class TurtleCommand:
 
-    def __init__(self, command: str, value: int):
+    def __init__(self, command: str, steps: int):
         self.__command = command
-        self.__value = value
+        self.__steps = steps
 
-    def get_command(self) -> str:
+    @property
+    def command(self) -> str:
         return self.__command
 
-    def get_number_of_steps(self) -> int:
-        return self.__value
+    @property
+    def steps(self) -> int:
+        return self.__steps
 
 
 class Shape(ABC):
-
     # this is a class level and static vars!!
     __screen: Screen = None
     __turtle: Turtle = None
@@ -47,7 +47,7 @@ class Shape(ABC):
         Shape.__instance_counter -= 1
 
     @abstractmethod
-    def _get_drawing_information(self) -> List[TurtleCommands]:
+    def _get_drawing_information(self) -> List[TurtleCommand]:
         return []  # default implementation will return empty list or array, whatever you want to call it!
 
     @classmethod
@@ -72,8 +72,8 @@ class Shape(ABC):
         Shape.__turtle.goto(self.__start_at_x, self.__start_at_y)
         Shape.__turtle.pendown()
         for turtle_command in self._get_drawing_information():
-            action = getattr(Shape.__turtle, turtle_command.get_command())
-            action(turtle_command.get_number_of_steps())
+            action = getattr(Shape.__turtle, turtle_command.command)
+            action(turtle_command.steps)
         Shape.__turtle.hideturtle()
         Shape.__shape_drawn_counter += 1
         print("{} Shapes have been drawn so far!".format(Shape.__shape_drawn_counter))
@@ -84,31 +84,31 @@ class Shape(ABC):
 
 class Triangle(Shape):
 
-    def __init__(self, color: str="blue", start_at_x: int=0, start_at_y: int=0):
+    def __init__(self, color: str = "blue", start_at_x: int = 0, start_at_y: int = 0):
         super().__init__(color, start_at_x, start_at_y)
 
-    def _get_drawing_information(self) -> List[TurtleCommands]:
-        return [TurtleCommands("forward", 30),
-                TurtleCommands("left", 120),
-                TurtleCommands("forward", 30),
-                TurtleCommands("left", 120),
-                TurtleCommands("forward", 30),
-                TurtleCommands("left", 120)]
+    def _get_drawing_information(self) -> List[TurtleCommand]:
+        return [TurtleCommand("forward", 30),
+                TurtleCommand("left", 120),
+                TurtleCommand("forward", 30),
+                TurtleCommand("left", 120),
+                TurtleCommand("forward", 30),
+                TurtleCommand("left", 120)]
 
 
 class Square(Shape):
 
-    def __init__(self, color: str="red", start_at_x: int=0, start_at_y: int=0):
+    def __init__(self, color: str = "red", start_at_x: int = 0, start_at_y: int = 0):
         super().__init__(color, start_at_x, start_at_y)
 
-    def _get_drawing_information(self) -> List[TurtleCommands]:
-        return [TurtleCommands("forward", 30),
-                TurtleCommands("left", 90),
-                TurtleCommands("forward", 30),
-                TurtleCommands("left", 90),
-                TurtleCommands("forward", 30),
-                TurtleCommands("left", 90),
-                TurtleCommands("forward", 30)]
+    def _get_drawing_information(self) -> List[TurtleCommand]:
+        return [TurtleCommand("forward", 30),
+                TurtleCommand("left", 90),
+                TurtleCommand("forward", 30),
+                TurtleCommand("left", 90),
+                TurtleCommand("forward", 30),
+                TurtleCommand("left", 90),
+                TurtleCommand("forward", 30)]
 
     def draw(self):
         print("done drawing a Square !")
@@ -118,8 +118,8 @@ class Square(Shape):
 def main():
     shapes: [Shape] = [Triangle(),
                        Square(start_at_x=100, start_at_y=100),
-                       Triangle("orange", 0, -100),
-                       Square("green", 0, 100)]
+                       Triangle(color="orange", start_at_y=-100),
+                       Square(color="green", start_at_y=100)]
     for shape in shapes:
         shape.draw()
 

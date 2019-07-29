@@ -7,7 +7,7 @@ from numpy import random as random_generator
 from time import time
 from typing import List
 import turtle
-from shapes import TurtleCommands
+from shapes import TurtleCommand
 
 
 # Generate several lists to be sorted and return a tuple
@@ -85,7 +85,7 @@ def analyze(title: str, func: callable, in_list: [int], visualization_on: bool =
 
 # simple method that will draw simple shapes defined
 # by passing list of TurtleCommands object
-def simple_turtle_draw(list_to_draw: List[TurtleCommands]):
+def simple_turtle_draw(list_to_draw: List[TurtleCommand]):
     turtle_object = turtle.Turtle()
     screen = turtle.Screen()
     screen.setup(400, 300)
