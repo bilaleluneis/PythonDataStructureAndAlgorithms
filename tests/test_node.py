@@ -31,7 +31,14 @@ class TestNode(TestCase):
     def test_2_raise_exception_on_reinit_child(self):
         self.assertRaises(NodeAlreadyInitializedError, TestNode.__node.init_child, 2, 6)
 
-    def test_3_update_nodes_values(self):
+    def test_3_update_node_value(self):
+        # update the parent node value
+        original_node_value: int = TestNode.__node.value
+        TestNode.__node.value = int(TestNode.__node.child.value)
+        self.assertNotEqual(TestNode.__node.value, original_node_value)
+        self.assertEqual(TestNode.__node.value, TestNode.__node.child.value)
+
+    def test_4_update_node_id(self):
         # update the parent node id
         original_node_id: int = TestNode.__node.id
         TestNode.__node.id = int(original_node_id + 1)
@@ -42,17 +49,11 @@ class TestNode(TestCase):
         TestNode.__node.child.id = int(original_child_node_id + 1)
         self.assertEqual(TestNode.__node.child.id, original_child_node_id + 1)
 
-        # update the parent node value
-        original_node_value: int = TestNode.__node.value
-        TestNode.__node.value = int(TestNode.__node.child.value)
-        self.assertNotEqual(TestNode.__node.value, original_node_value)
-        self.assertEqual(TestNode.__node.value, TestNode.__node.child.value)
-
-    def test_4_invalid_exception_value(self):
+    def test_5_raise_error_on_invalid_id(self):
         with self.assertRaises(InvalidTypeError):
             TestNode.__node.child.id = "True"
 
-    def test_5_invalid_exception_id(self):
+    def test_6_raise_error_on_invalid_value(self):
         with self.assertRaises(InvalidTypeError):
             TestNode.__node.value = "True"
 
