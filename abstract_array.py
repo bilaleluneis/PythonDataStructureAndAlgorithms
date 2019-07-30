@@ -4,6 +4,7 @@ __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
 from typing import Optional, Type, SupportsInt, List
 from abc import ABC, abstractmethod
+from node import *
 
 
 class ArrayIndexOutOfBoundError(Exception):
@@ -121,20 +122,112 @@ class ArrayNodeImpl(AbstractArray):
 
     def __init__(self) -> None:
         super().__init__()
-        self.__size: int = 0
+        # self.__size: int = 0
+        self.__node: Optional[Node] = None
+
+    def __str__(self) -> str:
+        description: str = "{} [".format(self._class_name)
+
+        if self.size > 0:
+            for i in range(self.size):
+                current_value = self.get(i)
+                description += "{}, ".format(current_value)
+
+            description = description[:-2]
+        description += "]"
+
+        return description
 
     @property
     def size(self) -> int:
-        return self.__size
+        if self.__node is None:
+            counter = 0
+        else:
+            root_node = self.__node
+            counter = 1
+            while root_node.child is not None:
+                root_node = root_node.child
+                counter += 1
+        return counter
 
     def get(self, at_index: int) -> Optional[int]:
-        pass
+        if at_index < 0 or at_index >= self.size:
+            return None
+        else:
+            return self.__get_node(at_index).value
 
     def remove(self, at_index: Optional[int] = None) -> Optional[int]:
-        pass
+        if at_index is None:
+            resolved_index = self.size - 1
+        else:
+            resolved_index = at_index
+
+        node_to_remove = self.__get_node(resolved_index)
+        value_at_index: Optional[int] = node_to_remove.value
+
+        if value_at_index is not None:
+            root_node = self.__node
+            while root_node.child is not None:
+                root_node = root_node.child
+
+            node_to_remove.id = int(root_node.id)
+            node_to_remove.value = int(root_node.value)
+
+            del root_node
+
+        if resolved_index < self.size-1:
+            for i in range(resolved_index+1, self.size+1):
+                current_node = self.__get_node(i)
+                current_node.id = i-1
+
+        return value_at_index
 
     def set(self, value: int, at_index: int) -> None:
         pass
 
     def insert(self, value: int, at_index: Optional[int] = None) -> None:
-        pass
+
+        if at_index is None:
+            if self.__node is None:
+                self.__node = Node(0, value)
+            else:
+                root_node = self.__node
+                while root_node.child is not None:
+                    root_node = root_node.child
+                root_node.init_child(self.size, value)
+
+        elif at_index in range(self.size):
+            root_node = self.__node
+            while root_node is not None:
+                if root_node.id >= at_index:
+                    root_node.id += 1
+                if root_node.child is None:
+                    root_node.init_child(at_index, value)
+                    return
+                root_node = root_node.child
+
+        else:
+            class_name: str = self._class_name
+            error: str = "{}._insert[{}]={} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
+            raise ArrayIndexOutOfBoundError(error)
+
+    # utility methods
+
+    def __get_node(self, at_index: int) -> Optional[Node]:
+        root_node = self.__node
+        while root_node is not None:
+            if root_node.id == at_index:
+                return root_node
+            else:
+                root_node = root_node.child
+
+    def __get_parent_node(self, at_index: int) -> Optional[Node]:
+        root_node = self.__node
+        if root_node.id == at_index:
+            return None
+        else:
+            while root_node is not None and root_node.child is not None:
+                if root_node.child.id == at_index:
+                    return root_node
+                else:
+                    root_node = root_node.child

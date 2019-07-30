@@ -54,6 +54,9 @@ class TestNode(TestCase):
         with self.assertRaises(InvalidTypeError):
             TestNode.__node.value = "True"
 
+    def test_7_child_setter(self):
+        pass
+
     def tearDown(self):
         pass
 

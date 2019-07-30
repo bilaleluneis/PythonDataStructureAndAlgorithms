@@ -1,12 +1,6 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="PyAbstractClassInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyArgumentEqualDefaultInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyAugmentAssignmentInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
-    <inspection_tool class="PyCallByClassInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyCallingNonCallableInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyClassHasNoInitInspection" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="PyCompatibilityInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ourVersions">
         <value>
@@ -17,28 +11,6 @@
           </list>
         </value>
       </option>
-    </inspection_tool>
-    <inspection_tool class="PyDictCreationInspection" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="PyDictDuplicateKeysInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyExceptionInheritInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyFromFutureImportInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyInitNewSignatureInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyMethodMayBeStaticInspection" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="PyMethodOverridingInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyMethodParametersInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyMissingConstructorInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyNestedDecoratorsInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyNoneFunctionAssignmentInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyPropertyAccessInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyProtectedMemberInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyRedundantParenthesesInspection" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="PyReturnFromInitInspection" enabled="true" level="ERROR" enabled_by_default="true" />
-    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="PyShadowingNamesInspection" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
-      <option name="processCode" value="true" />
-      <option name="processLiterals" value="true" />
-      <option name="processComments" value="true" />
     </inspection_tool>
   </profile>
 </component>
