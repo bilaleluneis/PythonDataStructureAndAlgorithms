@@ -10,19 +10,20 @@ from typing import TypeVar, SupportsInt, Optional
 T = TypeVar("T", int, bool, SupportsInt)
 
 
-class NodeAlreadyInitializedError(Exception):
-    pass
-
-
 class InvalidTypeError(Exception):
     pass
 
 
 class Node:
-    def __init__(self, uid: int, value: T) -> None:
-        self.__uid = uid
-        self.__value = value
+    def __init__(self, uid: int, a_value: T) -> None:
+        self.__uid: Optional[int] = None
+        self.__value: Optional[T] = None
         self.__child_node: Optional[Node] = None
+        self.value = a_value
+        self.id = uid
+
+    def __repr__(self) -> str:
+        return "Node(id={}, value={})".format(self.id, self.value)
 
     @property
     def value(self) -> T:
@@ -32,7 +33,7 @@ class Node:
             return bool(self.__value)
 
     @value.setter
-    def value(self, new_value: T):
+    def value(self, new_value: T) -> None:
         if type(new_value) is int:
             self.__value = int(new_value)
         elif type(new_value) is bool:
@@ -45,7 +46,7 @@ class Node:
         return int(self.__uid)
 
     @id.setter
-    def id(self, new_id: int):
+    def id(self, new_id: int) -> None:
         if type(new_id) is int:
             self.__uid = int(new_id)
         else:
@@ -55,11 +56,9 @@ class Node:
     def child(self) -> Optional[Node]:
         return self.__child_node
 
-    def init_child(self, uid: int, value: T) -> None:
-        if self.child is None:
-            self.__child_node = Node(uid, value)
+    @child.setter
+    def child(self, node: Optional[Node]) -> None:
+        if node is None:
+            self.__child_node = None
         else:
-            error: str = "Child of Node with id ={} already initalized with id={} and value={}".format(self.id,
-                                                                                                       self.child.id,
-                                                                                                       self.child.value)
-            raise NodeAlreadyInitializedError(error)
+            self.__child_node = Node(node.id, node.value)
