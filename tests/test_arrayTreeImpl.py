@@ -66,7 +66,6 @@ class TestArrayTreeImpl(TestCase):
             with self.subTest(i):
                 self.assertRaises(ArrayIndexOutOfBoundError, test_array.insert, 3, i)
 
-    @skip('not implemented yet')
     def test08_remove_without_index(self):
         test_array = self.__tree_array
         result = test_array.remove()
@@ -74,7 +73,6 @@ class TestArrayTreeImpl(TestCase):
         self.assertEqual(test_array.size, 6)
         self.assertEqual('ArrayTreeImpl [9, 8, 7, 5, 4, 3]', str(test_array))
 
-    @skip
     def test09_remove_without_index_from_empty_array(self):
         test_array = ArrayTreeImpl()
         result = test_array.remove()
@@ -82,15 +80,13 @@ class TestArrayTreeImpl(TestCase):
         self.assertEqual(test_array.size, 0)
         self.assertEqual('ArrayTreeImpl []', str(test_array))
 
-    @skip
     def test10_remove_with_index(self):
         test_array = self.__tree_array
-        result = test_array.remove(0)
-        self.assertEqual(result, 9)
+        result = test_array.remove(3)
+        self.assertEqual(result, 5)
         self.assertEqual(test_array.size, 5)
-        self.assertEqual('ArrayTreeImpl [8, 7, 5, 4, 3]', str(test_array))
+        self.assertEqual('ArrayTreeImpl [9, 8, 7, 4, 3]', str(test_array))
 
-    @skip
     def test11_remove_with_index_empty(self):
         test_array = ArrayTreeImpl()
         test_array.insert(1)
@@ -99,26 +95,29 @@ class TestArrayTreeImpl(TestCase):
         self.assertEqual(test_array.size, 1)
         self.assertEqual('ArrayTreeImpl [1]', str(test_array))
 
-    @skip
     def test12_insert_with_index_empty(self):
         test_array = ArrayTreeImpl()
         test_array.insert(5, 0)
         self.assertEqual(test_array.size, 1)
         self.assertEqual('ArrayTreeImpl [5]', str(test_array))
 
-    @skip
-    def test_set_happy(self):
+    def test13_set_happy(self):
         test_array = self.__tree_array
         test_array.set(10, 0)
         self.assertEqual(test_array.get(0), 10)
         self.assertEqual('ArrayTreeImpl [10, 7, 5, 4, 3]', str(test_array))
 
-    @skip
-    def test_set_out_of_bound(self):
+    def test14_set_out_of_bound(self):
         test_array = self.__tree_array
         test_array.set(10, 200)
         self.assertEqual(test_array.get(200), None)
         self.assertEqual(test_array.size, 5)
+
+    def test15_remove_from_empty_array(self):
+        test_array = ArrayTreeImpl()
+        result = test_array.remove()
+        self.assertEqual(test_array.size, 0)
+        self.assertEqual('ArrayTreeImpl []', str(test_array))
 
     def tearDown(self) -> None:
         self.array = None

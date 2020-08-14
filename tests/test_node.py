@@ -29,7 +29,7 @@ class TestNode(TestCase):
         self.assertEqual(TestNode.__node.child.value, 5)
 
     def test_2_update_node_value(self):
-        # update the parent node value
+        # update the parent node's value
         original_node_value: int = TestNode.__node.value
         TestNode.__node.value = int(TestNode.__node.child.value)
         self.assertNotEqual(TestNode.__node.value, original_node_value)
@@ -53,9 +53,6 @@ class TestNode(TestCase):
     def test_5_raise_error_on_invalid_value(self):
         with self.assertRaises(InvalidTypeError):
             TestNode.__node.value = "True"
-
-    def test_7_child_setter(self):
-        pass
 
     def tearDown(self):
         pass

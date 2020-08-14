@@ -115,42 +115,55 @@ class ArrayTreeImpl(AbstractArray):
             return self.__get_node(at_index).value
 
     def remove(self, at_index: Optional[int] = None) -> Optional[int]:
-        pass
-    #     resolved_index: Optional[int] = at_index
-    #
-    #     if at_index is None:
-    #         resolved_index = self.size - 1
-    #
-    #     value_at_index: Optional[int] = self.get(resolved_index)
-    #     node_to_remove = self.__get_node(at_index)
-    #
-    #     if value_at_index is not None:
-    #         if node_to_remove.left_child is None and node_to_remove.right_child is None: # if node_to_remove has no chilren
-    #             parent_node = self.__get_parent_node(node_to_remove.id)
-    #             if parent_node.id > node_to_remove.id:
-    #                 parent_node.left_child = None
-    #             else:
-    #                 parent_node.right_child = None
-    #
-    #         else:
-    #
-    #
-    #
-    #     return value_at_index
+        # pass
+        resolved_index: Optional[int] = at_index
 
-        # if value_at_index is not None:  # if the node does exist
-        #     node_to_remove = self.__get_node(resolved_index)
-        #     last_node = self.__find_last_node()
-        #     second_to_last_node = self.__get_parent_node(last_node.id)
-        #     node_to_remove.id = last_node.id
-        #     node_to_remove.value = last_node.value
-        #     if second_to_last_node is None:  # if there's only one node
-        #         self.__node = None
-        #     else:
-        #         second_to_last_node.child = None
-        #         self.__shift_id(resolved_index + 1, -1)
-        #
-        # return value_at_index
+        if at_index is None:
+            resolved_index = self.size - 1
+
+        value_at_index: Optional[int] = self.get(resolved_index)
+
+        if value_at_index is not None:
+            node_to_remove = self.__get_node(resolved_index)
+            # cut right branch, cut left branch, right branch copied to current node,
+            # find the smallest idex from current node, insrt left branch
+            right_branch = node_to_remove.right_child
+            left_branch = node_to_remove.left_child
+
+            if right_branch is not None:
+                self.__deep_copy_to_node(right_branch, self.__get_node(resolved_index))
+                self.__shift_id_from_index_pass_node(self.__node, resolved_index, -1)
+                # self.__get_node(resolved_index).id = right_branch.id
+                # resolved_index = right_branch.id
+                # self.__get_node(resolved_index).value = right_branch.value
+                # self.__get_node(resolved_index).left_child = right_branch.left_child  # FIXME
+                # self.__get_node(resolved_index).right_child = right_branch.right_child  # FIXME
+                # node_to_remove.id = right_branch.id
+                # node_to_remove.value = right_branch.value
+                # node_to_remove.right_child = right_branch.right_child
+                # node_to_remove.left_child = right_branch.left_child
+
+                if left_branch is not None:
+                    self.__find_the_node_with_smallest_index(self.__get_node(resolved_index)).left_child = left_branch
+                    left_branch_index: int = left_branch.id
+
+                    # node_to_insert_left_branch = self.__find_the_node_with_smallest_index(self.__get_node(resolved_index))
+                    # node_to_insert_left_branch.left_child = left_branch
+                    self.__deep_copy_to_node(left_branch, self.__get_node(left_branch_index))
+            else:
+                if left_branch is None:  # right and left branch both None
+                    self.__set_node_to_none(node_to_remove)
+                else: # right is None, left is not
+                    self.__deep_copy_to_node(left_branch, self.__get_node(resolved_index))
+                    # self.__get_node(resolved_index).id = left_branch.id
+                    # resolved_index = left_branch.id
+                    # self.__get_node(resolved_index).value = left_branch.value
+                    # self.__get_node(resolved_index).left_child = left_branch.left_child
+                    # self.__get_node(resolved_index).right_child = left_branch.right_child
+
+
+
+        return value_at_index
 
     def set(self, value: int, at_index: int) -> None:
         node_to_set = self.__get_node(at_index)
@@ -205,7 +218,7 @@ class ArrayTreeImpl(AbstractArray):
             else:
                 root_node = root_node.right_child
 
-    def __shift_id_from_index_pass_node(self, node: TreeNode,from_index: int, number: int) -> None:
+    def __shift_id_from_index_pass_node(self, node: TreeNode, from_index: int, number: int) -> None:
         if from_index <= node.id:
             node.id += number
             if node.right_child is not None:
@@ -250,13 +263,111 @@ class ArrayTreeImpl(AbstractArray):
 
     def __get_parent_node(self, at_index: int) -> Optional[TreeNode]:
         root_node = self.__node
-        if root_node.id == at_index:
+        if self.size == 0 or at_index == root_node.id:
             return None
-        elif root_node.id < at_index:
-            return self.__get_parent_node(root_node.left_child.id)
         else:
-            return self.__get_parent_node(root_node.right_child.id)
+            if at_index < root_node.id:
+                if at_index == root_node.left_child.id:
+                    return root_node
+                else:
+                    root_node = root_node.left_child
+            else:
+                if at_index == root_node.right_child.id:
+                    return root_node
+                else:
+                    root_node = root_node.right_child
 
+    def __get_parent_node_at_index_pass_node(self, at_index: int, from_node: TreeNode) -> Optional[TreeNode]:
+        if at_index == from_node.id:
+            return None
+        elif at_index < from_node.id:
+            if at_index == from_node.left_child.id:
+                return from_node
+            else:
+                return self.__get_parent_node_at_index_pass_node(at_index, from_node.left_child)
+        else:
+            if at_index == from_node.right_child.id:
+                return from_node
+            else:
+                return self.__get_parent_node_at_index_pass_node(at_index, from_node.right_child)
+
+    def __set_node_to_none(self, node: Optional[TreeNode]):
+        if node is None:
+            return
+        elif node is self.__node:
+            node.__init__(None, None) # FIXME: set to None
+        else:
+            parent_node = self.__get_parent_node_at_index_pass_node(node.id, self.__node)
+            if node.id < parent_node.id:
+                parent_node.left_child = None
+            else:
+                parent_node.right_child = None
+
+    # def __deep_copy_to_an_empty_node(self, copy_node: Optional[TreeNode], copy_target: Optional[TreeNode]) -> None:
+    #     if copy_node is not None:
+    #         copy_target.id = copy_node.id
+    #         copy_target.value = copy_node.value
+    #         self.__deep_copy_to_an_empty_node(copy_node.left_child, copy_target.left_child)
+    #         self.__deep_copy_to_an_empty_node(copy_target.right_child, copy_target.right_child)
+
+    def __deep_copy_to_node(self, copy_node: Optional[TreeNode], target_node: Optional[TreeNode]) -> None:
+        if copy_node is not None:
+            target_node = TreeNode(target_node.id, copy_node.value)
+            if copy_node.left_child is None:
+                target_node.left_child = None
+            else:
+                target_node.left_child = copy_node.left_child
+                self.__deep_copy_to_node(copy_node.left_child, target_node.left_child)
+
+            if copy_node.right_child is None:
+                target_node.right_child = None
+            else:
+                self.__deep_copy_to_node(copy_node.right_child, target_node.right_child)
+
+    def __deep_copy_offspring(self, copy_node: Optional[TreeNode], target_node: Optional[TreeNode]) -> None:
+        pass
+
+
+    # def __deep_copy_node(self, target_node: Optional[TreeNode], copy_node: Optional[TreeNode]) -> None:
+    #     if copy_node is None:
+    #         if target_node is None:
+    #             return
+    #         else:
+    #             parent_node = self.__get_parent_node_at_index_pass_node(target_node.id, self.__node)
+    #             # FIXME: if target node is a new node, self.__node would be problematic, could not find.
+    #             if parent_node is None:
+    #                 self.__set_node_to_none(target_node)
+    #             elif target_node.id < parent_node.id:
+    #                 parent_node.left_child = None
+    #             else:
+    #                 parent_node.right_child = None
+    #
+    #     else: # copy_node is not None
+    #         if target_node is not None:
+    #             target_node.id = copy_node.id
+    #             target_node.value = copy_node.value
+    #             if copy_node.left_child is None:
+    #                 target_node.left_child = None
+    #             else:
+    #                 self.__deep_copy_node(target_node.left_child, copy_node.left_child)
+    #
+    #             if copy_node.right_child is None:
+    #                 target_node.right_child = None
+    #             else:
+    #                 self.__deep_copy_node((target_node.right_child, copy_node.right_child))
+    #
+    #         else: # target node is None
+    #             target_node = TreeNode(copy_node.id, copy_node.value)
+    #             self.__deep_copy_node(target_node.left_child, copy_node.left_child)
+    #             self.__deep_copy_node(target_node.right_child, copy_node.right_child)
+
+    def __find_the_node_with_smallest_index(self, from_node: Optional[TreeNode]) ->Optional[TreeNode]:
+        if from_node is None:
+            return None
+        elif from_node.left_child is None:
+            return from_node
+        else:
+            self.__find_the_node_with_smallest_index(from_node.left_child)
 
     # def __shift_direct_children_id(self, node: Optional[TreeNode], number: int):
     #     if node is not None:

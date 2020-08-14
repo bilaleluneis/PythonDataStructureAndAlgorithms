@@ -2,7 +2,7 @@ __author__ = "Jieshu Wang and Bilal El Uneis"
 __since__ = "Aug 2018"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
-from typing import Optional, Type, SupportsInt, List
+from typing import Type, List
 from abc import ABC, abstractmethod
 from node import *
 
@@ -122,7 +122,6 @@ class ArrayNodeImpl(AbstractArray):
 
     def __init__(self) -> None:
         super().__init__()
-        # self.__size: int = 0
         self.__node: Optional[Node] = None
 
     def __str__(self) -> str:
@@ -140,15 +139,7 @@ class ArrayNodeImpl(AbstractArray):
 
     @property
     def size(self) -> int:
-        if self.__node is None:
-            counter = 0
-        else:
-            root_node = self.__node
-            counter = 1
-            while root_node.child is not None:
-                root_node = root_node.child
-                counter += 1
-        return counter
+        return self.__offspring_counter(self.__node)
 
     def get(self, at_index: int) -> Optional[int]:
         if at_index < 0 or at_index >= self.size:
@@ -157,61 +148,51 @@ class ArrayNodeImpl(AbstractArray):
             return self.__get_node(at_index).value
 
     def remove(self, at_index: Optional[int] = None) -> Optional[int]:
+        resolved_index: Optional[int] = at_index
+
         if at_index is None:
             resolved_index = self.size - 1
-        else:
-            resolved_index = at_index
 
-        node_to_remove = self.__get_node(resolved_index)
-        value_at_index: Optional[int] = node_to_remove.value
+        value_at_index: Optional[int] = self.get(resolved_index)
 
-        if value_at_index is not None:
-            root_node = self.__node
-            while root_node.child is not None:
-                root_node = root_node.child
-
-            node_to_remove.id = int(root_node.id)
-            node_to_remove.value = int(root_node.value)
-
-            del root_node
-
-        if resolved_index < self.size-1:
-            for i in range(resolved_index+1, self.size+1):
-                current_node = self.__get_node(i)
-                current_node.id = i-1
+        if value_at_index is not None:  # if the node does exist
+            node_to_remove = self.__get_node(resolved_index)
+            last_node = self.__find_last_node()
+            second_to_last_node = self.__get_parent_node(last_node.id)
+            node_to_remove.id = last_node.id
+            node_to_remove.value = last_node.value
+            if second_to_last_node is None:  # if there's only one node
+                self.__node = None
+            else:
+                second_to_last_node.child = None
+                self.__shift_id(resolved_index+1, -1)
 
         return value_at_index
 
     def set(self, value: int, at_index: int) -> None:
-        pass
+        node_to_set = self.__get_node(at_index)
+        if node_to_set is not None:
+            node_to_set.value = value
 
     def insert(self, value: int, at_index: Optional[int] = None) -> None:
+        resolved_index: Optional[int] = at_index
 
         if at_index is None:
-            if self.__node is None:
-                self.__node = Node(0, value)
+            resolved_index: int = int(self.size)
+
+        if resolved_index in range(self.size+1):  # if index = size, put it at the end.
+            self.__shift_id(resolved_index, 1)
+            last_node: Node = self.__find_last_node()
+            if last_node is None:  # if the array is empty
+                self.__node: Node = Node(resolved_index, value)  # resolved_index can only be 0 if array is empty
             else:
-                root_node = self.__node
-                while root_node.child is not None:
-                    root_node = root_node.child
-                root_node.init_child(self.size, value)
-
-        elif at_index in range(self.size):
-            root_node = self.__node
-            while root_node is not None:
-                if root_node.id >= at_index:
-                    root_node.id += 1
-                if root_node.child is None:
-                    root_node.init_child(at_index, value)
-                    return
-                root_node = root_node.child
-
+                last_node.child = Node(resolved_index, value)
         else:
             class_name: str = self._class_name
             error: str = "{}._insert[{}]={} Failed, index {} is invalid!".format(class_name, at_index, value, at_index)
             raise ArrayIndexOutOfBoundError(error)
 
-    # utility methods
+    """ utility methods """
 
     def __get_node(self, at_index: int) -> Optional[Node]:
         root_node = self.__node
@@ -220,9 +201,10 @@ class ArrayNodeImpl(AbstractArray):
                 return root_node
             else:
                 root_node = root_node.child
+        return root_node
 
     def __get_parent_node(self, at_index: int) -> Optional[Node]:
-        root_node = self.__node
+        root_node: Node = self.__node
         if root_node.id == at_index:
             return None
         else:
@@ -231,3 +213,28 @@ class ArrayNodeImpl(AbstractArray):
                     return root_node
                 else:
                     root_node = root_node.child
+
+    # def __get_parent_node_2(self):
+
+    def __offspring_counter(self, node: Optional[Node]) -> int:
+        if node is None:
+            return 0
+        else:
+            return self.__offspring_counter(node.child) + 1
+
+    def __shift_id(self, from_index: int, number: int) -> None:
+        root_node = self.__node
+        while root_node is not None:
+            if root_node.id >= from_index:
+                root_node.id += number
+            root_node = root_node.child
+
+    def __find_last_node(self) -> Optional[Node]:
+        root_node: Optional[Node] = self.__node
+        if root_node is None:
+            return None
+        else:
+            while root_node.child is not None:
+                root_node = root_node.child
+            return root_node
+

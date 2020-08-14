@@ -71,19 +71,47 @@ class TestArrayNodeImpl(TestCase):
         result = test_array.remove()
         self.assertEqual(result, 2)
         self.assertEqual(test_array.size, 6)
-        # self.assertEqual('ArrayNodeImpl [9, 8, 7, 5, 4, 3]', str(test_array))
+        self.assertEqual('ArrayNodeImpl [9, 8, 7, 5, 4, 3]', str(test_array))
 
-    @skip
-    def test09_remove_with_index(self):
+    def test09_remove_without_index_from_empty_array(self):
+        test_array = ArrayNodeImpl()
+        result = test_array.remove()
+        self.assertEqual(result, None)
+        self.assertEqual(test_array.size, 0)
+        self.assertEqual('ArrayNodeImpl []', str(test_array))
+
+    def test10_remove_with_index(self):
         test_array = self.__node_array
-        result = test_array.remove(1)
-        self.assertEqual(result, 8)
-        # self.assertEqual(test_array.size, 5)
-        # self.assertEqual('ArrayNodeImpl [9, 7, 5, 4, 3]', str(test_array))
+        result = test_array.remove(0)
+        self.assertEqual(result, 9)
+        self.assertEqual(test_array.size, 5)
+        self.assertEqual('ArrayNodeImpl [8, 7, 5, 4, 3]', str(test_array))
 
-    @skip
-    def test_set(self):
-        self.fail()
+    def test11_remove_with_index_empty(self):
+        test_array = ArrayNodeImpl()
+        test_array.insert(1)
+        result = test_array.remove(5)
+        self.assertEqual(result, None)
+        self.assertEqual(test_array.size, 1)
+        self.assertEqual('ArrayNodeImpl [1]', str(test_array))
+
+    def test12_insert_with_index_empty(self):
+        test_array = ArrayNodeImpl()
+        test_array.insert(5, 0)
+        self.assertEqual(test_array.size, 1)
+        self.assertEqual('ArrayNodeImpl [5]', str(test_array))
+
+    def test_set_happy(self):
+        test_array = self.__node_array
+        test_array.set(10, 0)
+        self.assertEqual(test_array.get(0), 10)
+        self.assertEqual('ArrayNodeImpl [10, 7, 5, 4, 3]', str(test_array))
+
+    def test_set_out_of_bound(self):
+        test_array = self.__node_array
+        test_array.set(10, 200)
+        self.assertEqual(test_array.get(200), None)
+        self.assertEqual(test_array.size, 5)
 
     def tearDown(self) -> None:
         self.array = None
