@@ -3,7 +3,6 @@ __since__ = "Aug 2020"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
 from unittest import TestCase
-from typing import Dict, List
 from dictionary import Dictionary
 from immutable_types import Immutable, MyKeyType
 
@@ -12,7 +11,7 @@ class TestDictionary(TestCase):
 
     def setUp(self) -> None:
         self.__custom_dictionary: Dictionary[str, int] = Dictionary[str, int]()
-        self.__default_dictionary: Dict[str, int] = dict()
+        self.__default_dictionary: dict[str, int] = dict()
 
     def test_0_initialize_empty_dictionary(self) -> None:
         self.assertTrue(self.__custom_dictionary is not None)
@@ -56,7 +55,7 @@ class TestDictionary(TestCase):
 
     def test_6_items(self) -> None:
         self.__default_dictionary = dict([('cat', 3), ('dog', 5)])
-        self.__custom_dictionary = Dictionary[Immutable[List[str]], int]([(MyKeyType(['1']), 3), (MyKeyType(['2']), 5)])
+        self.__custom_dictionary = Dictionary[Immutable[list[str]], int]([(MyKeyType(['1']), 3), (MyKeyType(['2']), 5)])
         keys = self.__default_dictionary.keys()
         items = self.__default_dictionary.items()
 

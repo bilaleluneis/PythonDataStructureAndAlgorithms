@@ -21,7 +21,7 @@ Dictionaries typically support so many operations −
 2. 
 """
 
-from typing import TypeVar, Generic, Optional, Tuple, List, Generator
+from typing import TypeVar, Generic, Optional
 from dataclasses import dataclass
 from copy import deepcopy
 from immutable_types import Immutable, MyKeyType
@@ -42,7 +42,7 @@ VT = TypeVar('VT')
 
 class Dictionary(Generic[KT, VT]):
 
-    def __init__(self, args: Optional[List[Tuple[KT, VT]]] = None) -> None:
+    def __init__(self, args: Optional[list[tuple[KT, VT]]] = None) -> None:
         self.__key_value_pairs = [KeyValuePair(key, value) for key, value in args] if args is not None else []
 
     def __len__(self) -> int:
@@ -62,10 +62,10 @@ class Dictionary(Generic[KT, VT]):
     def __contains__(self, item: KT) -> bool:
         return self.__look_up_key(item) is not None
 
-    def items(self) -> List[Tuple[KT, VT]]:
+    def items(self) -> list[tuple[KT, VT]]:
         return [(key, self[key]) for key in self.keys()]
 
-    def keys(self) -> List[KT]:
+    def keys(self) -> list[KT]:
         return [key_value_pair.key for key_value_pair in self.__key_value_pairs]
 
     """Helper Methods"""
