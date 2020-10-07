@@ -3,12 +3,14 @@ __since__ = "Oct 2019"
 __email__ = "bilaleluneis@gmail.com, foundwonder@gmail.com"
 
 from unittest import TestCase
-from simple_calculator import CalculatorProtocol, SimpleCalculator, Operations
-from generic_operation import BinaryOperation, UnaryOperation
+
 from LSP import Number, Integer
+from generic_operation import BinaryOperation, UnaryOperation
+from simple_calculator import CalculatorProtocol, SimpleCalculator, Operations
 from vector import VectorInterface, CPUVector
 
 
+# noinspection PyCallByClass
 class TestSimpleCalculator(TestCase):
 
     def setUp(self) -> None:
@@ -29,14 +31,14 @@ class TestSimpleCalculator(TestCase):
         simple_calculator.operator('+')
 
     def test_all_clear(self) -> None:
-        a_calaulator: CalculatorProtocol[int] = SimpleCalculator[int](self.__supported_operations)
-        a_calaulator.operand(1)
-        a_calaulator.operator('+')
-        a_calaulator.operand(3)
-        a_calaulator.evaluate()
-        self.assertTrue(a_calaulator.accumulator is not None)
-        a_calaulator.clear()
-        self.assertTrue(a_calaulator.accumulator is None)
+        calculator: CalculatorProtocol[int] = SimpleCalculator[int](self.__supported_operations)
+        calculator.operand(1)
+        calculator.operator('+')
+        calculator.operand(3)
+        calculator.evaluate()
+        self.assertTrue(calculator.accumulator is not None)
+        calculator.clear()
+        self.assertTrue(calculator.accumulator is None)
 
     def test_single_int_plus(self) -> None:
         simple_calculator: CalculatorProtocol[int] = SimpleCalculator[int](self.__supported_operations)
@@ -47,24 +49,24 @@ class TestSimpleCalculator(TestCase):
         self.assertEqual(simple_calculator.accumulator, 0.5)
 
     def test_multiple_int_operators(self) -> None:
-        a_calculator: CalculatorProtocol[int] = SimpleCalculator[int](self.__supported_operations)
-        a_calculator.operand(1)
-        a_calculator.operator("+")
-        a_calculator.operand(2)
-        a_calculator.operator('/')
-        a_calculator.operand(3)
-        a_calculator.operator('*')
-        a_calculator.operand(5)
-        a_calculator.evaluate()  # ((1+2)/3)*5 = 5
-        self.assertEqual(a_calculator.accumulator, 5)
+        calculator: CalculatorProtocol[int] = SimpleCalculator[int](self.__supported_operations)
+        calculator.operand(1)
+        calculator.operator("+")
+        calculator.operand(2)
+        calculator.operator('/')
+        calculator.operand(3)
+        calculator.operator('*')
+        calculator.operand(5)
+        calculator.evaluate()  # ((1+2)/3)*5 = 5
+        self.assertEqual(calculator.accumulator, 5)
 
     def test_custom_integer_calculator(self) -> None:
-        a_calculator: CalculatorProtocol[Number[int]] = SimpleCalculator[Integer](self.__supported_operations)
-        a_calculator.operand(Integer(1))
-        a_calculator.operator('+')
-        a_calculator.operand(Integer(2))
-        a_calculator.evaluate()
-        self.assertEqual(a_calculator.accumulator.value, 3)
+        calculator: CalculatorProtocol[Number[int]] = SimpleCalculator[Integer](self.__supported_operations)
+        calculator.operand(Integer(1))
+        calculator.operator('+')
+        calculator.operand(Integer(2))
+        calculator.evaluate()
+        self.assertEqual(calculator.accumulator.value, 3)
 
     def test_custom_vector_calculator(self) -> None:
         vector_calculator: CalculatorProtocol[VectorInterface[int]] = SimpleCalculator[CPUVector[int]](

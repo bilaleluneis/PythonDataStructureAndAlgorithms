@@ -53,7 +53,7 @@ class SimpleCalculator(CalculatorProtocol[T]):
 
     def evaluate(self) -> None:
         self.__accumulator: T = self.__op_queue.pop(0)
-        while len(self.__op_queue) > 0:
+        while len(self.__op_queue):
             params: list[T] = [self.accumulator]
             operator: MathOperation[T] = self.__op_queue.pop(0)
             if isinstance(operator, BinaryOperation):
