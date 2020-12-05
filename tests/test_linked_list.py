@@ -3,7 +3,7 @@ __since__ = "Nov 2020"
 __email__ = "foundwonder@gmail.com and bilaleluneis@gmail.com"
 
 from unittest import TestCase
-from linked_list import SinglyLinkedList, DoubleLinkedList
+from linked_list import SinglyLinkedList
 
 
 class TestSinglyLinkedList(TestCase):
